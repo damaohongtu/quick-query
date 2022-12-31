@@ -111,24 +111,12 @@
             <el-row>
               <el-row>
                 <div v-for="(item, index) in itemData.configInfo.outputField" :key="index">
-                  <el-row type="flex" justify="space-around">
-                    <el-col :span="5">
+                  <el-row :gutter="10" type="flex" justify="space-around">
+                    <el-col :span="9">
                       <el-input v-model="itemData.configInfo.outputField[index].key" placeholder="key" />
                     </el-col>
-                    <el-col :span="5">
+                    <el-col :span="8">
                       <el-input v-model="itemData.configInfo.outputField[index].name" placeholder="name"/>
-                    </el-col>
-                    <el-col :span="6">
-                      <!-- 设置关联字段 -->
-                      <el-select v-model="itemData.configInfo.outputField[index].out" placeholder="关联节点">
-                        <el-option
-                          v-for="item in itemData.neighbor"
-                          :key="item"
-                          :title="item"
-                          :label="item"
-                          :value="item"
-                        />
-                      </el-select>
                     </el-col>
                     <el-col :span="4">
                       <el-popover
@@ -137,10 +125,32 @@
                         trigger="click">
                         <div>
                           <el-row type="flex" justify="center">
-                            <div style="padding-bottom: 10px">配置字段<font color="red">{{itemData.configInfo.outputField[index].key}}</font>格式化</div>
+                            <div style="padding-bottom: 10px">配置字段<font color="red">{{itemData.configInfo.outputField[index].key}}</font></div>
                           </el-row>
                           <el-row>
                             <el-form label-width="80px">
+                              <el-form-item label="关联节点:">
+                                <el-select v-model="itemData.configInfo.outputField[index].out" placeholder="关联节点">
+                                  <el-option
+                                    v-for="item in itemData.neighbor"
+                                    :key="item"
+                                    :title="item"
+                                    :label="item"
+                                    :value="item"
+                                  />
+                                </el-select>
+                              </el-form-item>
+                              <el-form-item label="关联字段:">
+                                <el-select v-model="itemData.configInfo.outputField[index].out" placeholder="关联节点">
+                                  <el-option
+                                    v-for="item in itemData.neighbor"
+                                    :key="item"
+                                    :title="item"
+                                    :label="item"
+                                    :value="item"
+                                  />
+                                </el-select>
+                              </el-form-item>
                               <el-form-item label="枚举映射:">
                                 <el-input v-model="itemData.configInfo.outputField[index].displayConfig.enumMap"/>
                               </el-form-item>
@@ -155,10 +165,10 @@
                             </el-form>
                           </el-row>
                         </div>
-                        <el-button slot="reference" plain>格式化</el-button>
+                        <el-button slot="reference" plain>配置</el-button>
                       </el-popover>
                     </el-col>
-                    <el-col :span="2">
+                    <el-col :span="3">
                       <el-button type="danger" icon="el-icon-delete" circle plain @click="delOutputField(item.key)" />
                     </el-col>
                   </el-row>
