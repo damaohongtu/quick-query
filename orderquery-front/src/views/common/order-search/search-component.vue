@@ -6,7 +6,7 @@
     </div>
     <el-row style="margin-bottom: 15px;">
       <el-input v-model="serial_no" v-loading="loading" placeholder="请输入单号" class="input-with-select" style="border-color: #409EFF;">
-        <el-select v-model="config_code" slot="prepend" placeholder="请选择">
+        <el-select v-model="config_code" slot="prepend" placeholder="请选择" class="el-select">
           <el-option
             v-for="item in configList"
             :key="item.code"
@@ -98,11 +98,6 @@ export default {
         }
         this.loading = false
       })
-    },
-    handleTabClick() {
-      this.result = {
-        data: [{ nodeCode: '', rows: [] }]
-      }
     },
     handleCurrentChange(parm, val) {
       console.log(parm.curPage, val)
