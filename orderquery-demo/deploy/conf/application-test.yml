@@ -21,7 +21,10 @@ order-query:
             url: jdbc:mysql://127.0.0.1:3306/test4
             driver-class-name: com.mysql.cj.jdbc.Driver
       click-house:
-        damaohogntu1:
-          - url: test
-            username: root
-            password: 123456
+        test1:
+          url: jdbc:clickhouse://127.0.0.1:3306/test4
+          username: root
+          password: 123456
+      hive:
+        test1:
+          url: test

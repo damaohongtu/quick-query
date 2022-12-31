@@ -1,0 +1,67 @@
+# Compiled class file
+*.class
+
+# Eclipse
+.project
+.classpath
+.settings/
+
+# Intellij
+*.ipr
+*.iml
+*.iws
+.idea/
+
+# Maven
+target/
+
+# Gradle
+build
+.gradle
+
+# Log file
+*.log
+log/
+
+# out
+**/out/
+
+# Mac
+.DS_Store
+
+# others
+*.jar
+*.war
+*.zip
+*.tar
+*.tar.gz
+*.pid
+*.orig
+temp/
+
+**/node_modules/
+//.gitignore
+ 
+.DS_Store
+node_modules
+/dist
+ 
+# local env files
+.env.local
+.env.*.local
+ 
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+ 
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+
