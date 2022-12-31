@@ -9,7 +9,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * Description: OrderQuery初始化属性
  */
 @Data
-@ConfigurationProperties(prefix = "orderquery.internal.datasource")
+@ConfigurationProperties(prefix = "order-query.internal.datasource")
 public class OrderQueryConfig {
 
     /**

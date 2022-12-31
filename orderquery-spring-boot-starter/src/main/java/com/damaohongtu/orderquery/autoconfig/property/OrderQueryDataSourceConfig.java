@@ -13,7 +13,7 @@ import java.util.Map;
  */
 
 @Data
-@ConfigurationProperties(prefix = "orderquery.external.datasource")
+@ConfigurationProperties(prefix = "order-query.external.datasource")
 public class OrderQueryDataSourceConfig {
 
     /**
