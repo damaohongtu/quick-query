@@ -51,7 +51,7 @@ export const asyncRoutes = [
     path: '/',
     component: Layout,
     meta: {
-      title: '单据关联查询',
+      title: 'OrderQuery',
       icon: 'component'
     },
     children: [
@@ -60,7 +60,7 @@ export const asyncRoutes = [
         component: () => import('@/views/common/order-search/search-component'),
         name: 'OrderQuery',
         meta: {
-          title: '单据关联查询'
+          title: 'OrderQuery'
         }
       }]
   },
@@ -68,18 +68,18 @@ export const asyncRoutes = [
     path: '/graph-manage',
     component: Layout,
     alwaysShow: true, // will always show the root menu
-    name: '配置管理',
+    name: 'GraphManege',
     meta: {
-      title: '配置管理',
+      title: 'Graph管理',
       icon: 'form'
     },
     children: [
       {
         path: '',
         component: () => import('@/views/manage/orderquery/graph-manage'),
-        name: 'Graph配置',
+        name: 'GraphList',
         meta: {
-          title: 'Graph配置'
+          title: 'Graph列表'
         }
       },
       {
@@ -115,18 +115,18 @@ export const asyncRoutes = [
     path: '/hash-manage',
     component: Layout,
     alwaysShow: true, // will always show the root menu
-    name: '配置管理',
+    name: 'ShardingManage',
     meta: {
-      title: '分库分表管理',
+      title: 'Sharding管理',
       icon: 'guide'
     },
     children: [
       {
         path: '',
         component: () => import('@/views/manage/orderquery/hash-manage'),
-        name: '分库分表规则',
+        name: 'ShardingList',
         meta: {
-          title: '分库分表规则'
+          title: 'Sharding列表'
         }
       },
       {
