@@ -1,19 +1,19 @@
 <template>
   <div class="app-container">
     <fieldset :disabled="isEditDisabled" style="border: none">
-      <div >
+      <el-row>
         <div class="graph">
           <butterfly-vue
             :canvas-data="formattedData"
           />
         </div>
-        <div class="datasource_list">
-          <button style="margin-right: 10px" @click="addMysql">MySQL数据源</button>
-          <button style="margin-right: 10px" @click="addClickhouse">ClickHouse数据源</button>
-          <button style="margin-right: 10px" @click="addHive">Hive数据源</button>
-          <button style="margin-right: 10px" @click="addHttp">HTTP数据源</button>
-        </div>
-      </div>
+      </el-row>
+      <el-row :gutter="10" class="datasource_button">
+        <el-button type="primary" @click="addMysql">MySQL数据源</el-button>
+        <el-button type="primary" @click="addClickhouse">ClickHouse数据源</el-button>
+        <el-button type="primary" @click="addHive">Hive数据源</el-button>
+        <el-button type="primary" @click="addHttp">HTTP数据源</el-button>
+      </el-row>
 
       <el-row style="padding-top: 20px">
         <el-col :span="24">
@@ -455,11 +455,9 @@ export default {
 </script>
 
 <style scoped>
-.content {
+.datasource_button{
   margin-top: 10px;
   display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .graph {

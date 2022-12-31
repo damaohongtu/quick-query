@@ -1,30 +1,16 @@
 <template>
   <div class="app-container">
+    <el-row :gutter='10' class="header-query-add">
+      <el-col :span="3">
+        <el-input placeholder="请输入配置编码" />
+      </el-col>
+      <el-col :span="3">
+        <el-input placeholder="请输入配置名称"></el-input>
+      </el-col>
+      <el-button type="primary" icon="el-icon-search" @click="query">查询</el-button>
+      <el-button type="primary" icon="el-icon-circle-plus-outline" @click="addHash">新增</el-button>
+    </el-row>
     <el-row>
-      <el-col :span="24">
-        <el-row>
-          <el-col :span="4">
-            <el-form>
-              <el-form-item label="配置编码:" prop="name">
-                <el-input placeholder="请输入" style="width: 200px;" />
-              </el-form-item>
-            </el-form>
-          </el-col>
-          <el-col :span="4">
-            <el-form>
-              <el-form-item label="配置名称:">
-                <el-input placeholder="请输入" style="width: 200px;" />
-              </el-form-item>
-            </el-form>
-          </el-col>
-          <el-col :span="2">
-            <el-button type="primary" icon="el-icon-search" @click="query">查询</el-button>
-          </el-col>
-          <el-col :span="2">
-            <el-button type="primary" icon="el-icon-circle-plus-outline" @click="addHash">新增</el-button>
-          </el-col>
-        </el-row>
-
         <div class="content">
           <div class="content">
             <el-table :data="hashInfo" border>
@@ -51,7 +37,6 @@
             </div>
           </div>
         </div>
-      </el-col>
     </el-row>
   </div>
 
@@ -101,6 +86,9 @@ export default {
 <style scoped>
 .content{
   padding: 5px;
-
+}
+.header-query-add {
+  margin-top: 10px;
+  display: flex;
 }
 </style>
