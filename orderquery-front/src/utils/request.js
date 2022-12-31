@@ -76,7 +76,7 @@ service.interceptors.response.use(
 export default service
 
 const OrderQueryRequest = axios.create({
-  baseURL: 'http://127.0.0.1:9528',
+  baseURL: 'http://127.0.0.1:9527',
   timeout: 80000, // 请求超时时间
   withCredentials: true
 })

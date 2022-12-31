@@ -6,6 +6,15 @@
     </div>
     <el-row style="margin-bottom: 15px;">
       <el-input v-model="serial_no" v-loading="loading" placeholder="请输入单号" class="input-with-select" style="border-color: #409EFF;">
+        <el-select v-model="config_code" slot="prepend" placeholder="请选择">
+          <el-option
+            v-for="item in configList"
+            :key="item.code"
+            :title="item.name"
+            :label="item.name"
+            :value="item.code"
+          />
+        </el-select>
         <el-button
           slot="append"
           type="primary"
@@ -55,6 +64,10 @@ export default {
       bizName: '',
       config_code: '',
       serial_no: '',
+      configList: [
+        { code: '1', name: '业务1' },
+        { code: '2', name: '业务2' }
+      ],
       result: {
         data: [{ nodeCode: '', curPage: 1, rows: [] }]
       },
