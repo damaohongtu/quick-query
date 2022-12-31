@@ -11,32 +11,34 @@
       <el-button type="primary" icon="el-icon-circle-plus-outline" @click="addHash">新增</el-button>
     </el-row>
     <el-row>
+      <div class="content">
         <div class="content">
-          <div class="content">
-            <el-table :data="hashInfo" border>
-              <el-table-column prop="code" label="分库分表规则编码" />
-              <el-table-column prop="name" label="分库分表名" />
-              <el-table-column prop="createTime" label="创建时间" />
-              <el-table-column prop="updateTime" label="更新时间" />
-              <el-table-column prop="updateBy" label="操作">
-                <template slot-scope="scope">
-                  <el-button type="success" icon="el-icon-view" plain @click="queryHash(scope.row.code, scope.row.name, scope.row.script)">查看</el-button>
-                  <el-button type="danger" icon="el-icon-edit" plain @click="editHash(scope.row.code, scope.row.name, scope.row.script)">编辑</el-button>
-                </template>
-              </el-table-column>
+          <el-table :data="hashInfo" border>
+            <el-table-column prop="code" label="分库分表规则编码" />
+            <el-table-column prop="name" label="分库分表名" />
+            <el-table-column prop="createTime" label="创建时间" />
+            <el-table-column prop="updateTime" label="更新时间" />
+            <el-table-column prop="createBy" label="创建人" />
+            <el-table-column prop="updateBy" label="更新人" />
+            <el-table-column label="操作">
+              <template slot-scope="scope">
+                <el-button type="success" icon="el-icon-view" plain @click="queryHash(scope.row.code, scope.row.name, scope.row.script)">查看</el-button>
+                <el-button type="danger" icon="el-icon-edit" plain @click="editHash(scope.row.code, scope.row.name, scope.row.script)">编辑</el-button>
+              </template>
+            </el-table-column>
 
-            </el-table>
-            <div align="right" style="padding-right: 10px; padding-top: 5px">
-              <el-pagination
-                background
-                :page-sizes="[5, 10, 20, 40]"
-                :page-size="5"
-                layout="total, sizes, prev, pager, next, jumper"
-                :total="100"
-              />
-            </div>
+          </el-table>
+          <div align="right" style="padding-right: 10px; padding-top: 5px">
+            <el-pagination
+              background
+              :page-sizes="[5, 10, 20, 40]"
+              :page-size="5"
+              layout="total, sizes, prev, pager, next, jumper"
+              :total="100"
+            />
           </div>
         </div>
+      </div>
     </el-row>
   </div>
 
@@ -51,13 +53,6 @@ export default {
 
   data() {
     return {
-      activeName: 'first',
-      graphInfo: [
-        { graphCode: '', graphName: '', createTime: '', updateTime: '', createBy: '', updateBy: '' }
-      ],
-      graphCondition: {
-        code: ''
-      },
       hashInfo: [
         { code: '', name: '', createTime: '', updateTime: '', createBy: '', updateBy: '' }
       ]

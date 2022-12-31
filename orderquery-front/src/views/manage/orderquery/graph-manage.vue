@@ -18,7 +18,9 @@
           <el-table-column prop="graphName" label="业务名" />
           <el-table-column prop="createTime" label="创建时间" />
           <el-table-column prop="updateTime" label="更新时间" />
-          <el-table-column prop="updateBy" label="操作">
+          <el-table-column prop="createBy" label="创建人" />
+          <el-table-column prop="updateBy" label="更新人" />
+          <el-table-column label="操作">
             <template slot-scope="scope">
               <el-button type="success" icon="el-icon-view" plain @click="query(scope.row.graphCode)">查看</el-button>
               <el-button type="danger" icon="el-icon-edit" plain @click="edit(scope.row.graphCode)">编辑</el-button>
@@ -49,16 +51,12 @@ export default {
 
   data() {
     return {
-      activeName: 'first',
       graphInfo: [
         { graphCode: '', graphName: '', createTime: '', updateTime: '', createBy: '', updateBy: '' }
       ],
       graphCondition: {
         code: ''
-      },
-      hashInfo: [
-        { code: '', name: '', createTime: '', updateTime: '', createBy: '', updateBy: '' }
-      ]
+      }
     }
   },
   created() {
