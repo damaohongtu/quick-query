@@ -1,6 +1,6 @@
-create database queryorder;
-use queryorder;
-create table if not exists queryorder.query_order_graph
+create database orderquery;
+use orderquery;
+create table if not exists orderquery.query_order_graph
 (
     id          bigint auto_increment
         primary key,
@@ -18,7 +18,7 @@ create table if not exists queryorder.query_order_graph
     comment '查询关联图';
 
 
-create table queryorder.query_order_hash
+create table orderquery.query_order_hash
 (
     id          bigint auto_increment
         primary key,
@@ -35,7 +35,7 @@ create table queryorder.query_order_hash
 )
     comment '查询关联图';
 
-create table queryorder.query_order_node
+create table orderquery.query_order_node
 (
     id            bigint auto_increment
         primary key,

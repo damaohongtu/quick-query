@@ -13,7 +13,7 @@ import javax.annotation.Resource;
 
 
 @RestController
-@RequestMapping("/api/OrderQuery")
+@RequestMapping("/api/orderquery")
 public class QueryController {
 
     @Resource

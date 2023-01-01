@@ -25,7 +25,7 @@ import java.util.Map;
  */
 
 @RestController
-@RequestMapping("/api/OrderQuery")
+@RequestMapping("/api/orderquery")
 public class ConfigController {
 
     @Resource

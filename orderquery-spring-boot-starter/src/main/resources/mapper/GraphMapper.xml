@@ -1,0 +1,550 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.damaohongtu.orderquery.dao.mapper.GraphMapper">
+  <resultMap id="BaseResultMap" type="com.damaohongtu.orderquery.dao.entity.Graph">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="graph_code" jdbcType="VARCHAR" property="graphCode" />
+    <result column="graph_name" jdbcType="VARCHAR" property="graphName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+    <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+    <result column="edges" jdbcType="VARCHAR" property="edges" />
+    <result column="valid" jdbcType="TINYINT" property="valid" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, graph_code, graph_name, create_time, update_time, create_by, update_by, edges, 
+    valid
+  </sql>
+  <select id="selectByExample" parameterType="com.damaohongtu.orderquery.dao.entity.GraphExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from graph
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="rows != null">
+      <if test="offset != null">
+        limit ${offset}, ${rows}
+      </if>
+      <if test="offset == null">
+        limit ${rows}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from graph
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from graph
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.damaohongtu.orderquery.dao.entity.GraphExample">
+    delete from graph
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.damaohongtu.orderquery.dao.entity.Graph">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into graph (graph_code, graph_name, create_time, 
+      update_time, create_by, update_by, 
+      edges, valid)
+    values (#{graphCode,jdbcType=VARCHAR}, #{graphName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, #{updateBy,jdbcType=VARCHAR}, 
+      #{edges,jdbcType=VARCHAR}, #{valid,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.damaohongtu.orderquery.dao.entity.Graph">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into graph
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="graphCode != null">
+        graph_code,
+      </if>
+      <if test="graphName != null">
+        graph_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="createBy != null">
+        create_by,
+      </if>
+      <if test="updateBy != null">
+        update_by,
+      </if>
+      <if test="edges != null">
+        edges,
+      </if>
+      <if test="valid != null">
+        valid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="graphCode != null">
+        #{graphCode,jdbcType=VARCHAR},
+      </if>
+      <if test="graphName != null">
+        #{graphName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null">
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateBy != null">
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="edges != null">
+        #{edges,jdbcType=VARCHAR},
+      </if>
+      <if test="valid != null">
+        #{valid,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.damaohongtu.orderquery.dao.entity.GraphExample" resultType="java.lang.Long">
+    select count(*) from graph
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update graph
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.graphCode != null">
+        graph_code = #{record.graphCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.graphName != null">
+        graph_name = #{record.graphName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createBy != null">
+        create_by = #{record.createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateBy != null">
+        update_by = #{record.updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.edges != null">
+        edges = #{record.edges,jdbcType=VARCHAR},
+      </if>
+      <if test="record.valid != null">
+        valid = #{record.valid,jdbcType=TINYINT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update graph
+    set id = #{record.id,jdbcType=BIGINT},
+      graph_code = #{record.graphCode,jdbcType=VARCHAR},
+      graph_name = #{record.graphName,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      create_by = #{record.createBy,jdbcType=VARCHAR},
+      update_by = #{record.updateBy,jdbcType=VARCHAR},
+      edges = #{record.edges,jdbcType=VARCHAR},
+      valid = #{record.valid,jdbcType=TINYINT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.damaohongtu.orderquery.dao.entity.Graph">
+    update graph
+    <set>
+      <if test="graphCode != null">
+        graph_code = #{graphCode,jdbcType=VARCHAR},
+      </if>
+      <if test="graphName != null">
+        graph_name = #{graphName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null">
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateBy != null">
+        update_by = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="edges != null">
+        edges = #{edges,jdbcType=VARCHAR},
+      </if>
+      <if test="valid != null">
+        valid = #{valid,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.damaohongtu.orderquery.dao.entity.Graph">
+    update graph
+    set graph_code = #{graphCode,jdbcType=VARCHAR},
+      graph_name = #{graphName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      update_by = #{updateBy,jdbcType=VARCHAR},
+      edges = #{edges,jdbcType=VARCHAR},
+      valid = #{valid,jdbcType=TINYINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByExampleWithRowbounds" parameterType="com.damaohongtu.orderquery.dao.entity.GraphExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from graph
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
+    insert into graph
+    (graph_code, graph_name, create_time, update_time, create_by, update_by, edges, valid
+      )
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.graphCode,jdbcType=VARCHAR}, #{item.graphName,jdbcType=VARCHAR}, #{item.createTime,jdbcType=TIMESTAMP}, 
+        #{item.updateTime,jdbcType=TIMESTAMP}, #{item.createBy,jdbcType=VARCHAR}, #{item.updateBy,jdbcType=VARCHAR}, 
+        #{item.edges,jdbcType=VARCHAR}, #{item.valid,jdbcType=TINYINT})
+    </foreach>
+  </insert>
+  <insert id="batchInsertSelective" keyColumn="id" keyProperty="list.id" parameterType="map" useGeneratedKeys="true">
+    insert into graph (
+    <foreach collection="selective" item="column" separator=",">
+      ${column.escapedColumnName}
+    </foreach>
+    )
+    values
+    <foreach collection="list" item="item" separator=",">
+      (
+      <foreach collection="selective" item="column" separator=",">
+        <if test="'graph_code'.toString() == column.value">
+          #{item.graphCode,jdbcType=VARCHAR}
+        </if>
+        <if test="'graph_name'.toString() == column.value">
+          #{item.graphName,jdbcType=VARCHAR}
+        </if>
+        <if test="'create_time'.toString() == column.value">
+          #{item.createTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="'update_time'.toString() == column.value">
+          #{item.updateTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="'create_by'.toString() == column.value">
+          #{item.createBy,jdbcType=VARCHAR}
+        </if>
+        <if test="'update_by'.toString() == column.value">
+          #{item.updateBy,jdbcType=VARCHAR}
+        </if>
+        <if test="'edges'.toString() == column.value">
+          #{item.edges,jdbcType=VARCHAR}
+        </if>
+        <if test="'valid'.toString() == column.value">
+          #{item.valid,jdbcType=TINYINT}
+        </if>
+      </foreach>
+      )
+    </foreach>
+  </insert>
+  <insert id="upsertSelective" keyColumn="id" keyProperty="id" parameterType="com.damaohongtu.orderquery.dao.entity.Graph" useGeneratedKeys="true">
+    insert into graph
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="graphCode != null">
+        graph_code,
+      </if>
+      <if test="graphName != null">
+        graph_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="createBy != null">
+        create_by,
+      </if>
+      <if test="updateBy != null">
+        update_by,
+      </if>
+      <if test="edges != null">
+        edges,
+      </if>
+      <if test="valid != null">
+        valid,
+      </if>
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="graphCode != null">
+        #{graphCode,jdbcType=VARCHAR},
+      </if>
+      <if test="graphName != null">
+        #{graphName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null">
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateBy != null">
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="edges != null">
+        #{edges,jdbcType=VARCHAR},
+      </if>
+      <if test="valid != null">
+        #{valid,jdbcType=TINYINT},
+      </if>
+    </trim>
+    on duplicate key update 
+    <trim suffixOverrides=",">
+      <if test="id != null">
+        id = #{id,jdbcType=BIGINT},
+      </if>
+      <if test="graphCode != null">
+        graph_code = #{graphCode,jdbcType=VARCHAR},
+      </if>
+      <if test="graphName != null">
+        graph_name = #{graphName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null">
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateBy != null">
+        update_by = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="edges != null">
+        edges = #{edges,jdbcType=VARCHAR},
+      </if>
+      <if test="valid != null">
+        valid = #{valid,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <insert id="upsert" keyColumn="id" keyProperty="id" parameterType="com.damaohongtu.orderquery.dao.entity.Graph" useGeneratedKeys="true">
+    insert into graph
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      graph_code,
+      graph_name,
+      create_time,
+      update_time,
+      create_by,
+      update_by,
+      edges,
+      valid,
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      #{graphCode,jdbcType=VARCHAR},
+      #{graphName,jdbcType=VARCHAR},
+      #{createTime,jdbcType=TIMESTAMP},
+      #{updateTime,jdbcType=TIMESTAMP},
+      #{createBy,jdbcType=VARCHAR},
+      #{updateBy,jdbcType=VARCHAR},
+      #{edges,jdbcType=VARCHAR},
+      #{valid,jdbcType=TINYINT},
+    </trim>
+    on duplicate key update 
+    <trim suffixOverrides=",">
+      <if test="id != null">
+        id = #{id,jdbcType=BIGINT},
+      </if>
+      graph_code = #{graphCode,jdbcType=VARCHAR},
+      graph_name = #{graphName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      update_by = #{updateBy,jdbcType=VARCHAR},
+      edges = #{edges,jdbcType=VARCHAR},
+      valid = #{valid,jdbcType=TINYINT},
+    </trim>
+  </insert>
+  <insert id="batchUpsertSelective" parameterType="map">
+    insert into graph (
+    <foreach collection="selective" item="column" separator=",">
+      ${column.escapedColumnName}
+    </foreach>
+    )
+    values
+    <foreach collection="list" item="item" separator=",">
+      (
+      <foreach collection="selective" item="column" separator=",">
+        <if test="'id'.toString() == column.value">
+          #{item.id,jdbcType=BIGINT}
+        </if>
+        <if test="'graph_code'.toString() == column.value">
+          #{item.graphCode,jdbcType=VARCHAR}
+        </if>
+        <if test="'graph_name'.toString() == column.value">
+          #{item.graphName,jdbcType=VARCHAR}
+        </if>
+        <if test="'create_time'.toString() == column.value">
+          #{item.createTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="'update_time'.toString() == column.value">
+          #{item.updateTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="'create_by'.toString() == column.value">
+          #{item.createBy,jdbcType=VARCHAR}
+        </if>
+        <if test="'update_by'.toString() == column.value">
+          #{item.updateBy,jdbcType=VARCHAR}
+        </if>
+        <if test="'edges'.toString() == column.value">
+          #{item.edges,jdbcType=VARCHAR}
+        </if>
+        <if test="'valid'.toString() == column.value">
+          #{item.valid,jdbcType=TINYINT}
+        </if>
+      </foreach>
+      )
+    </foreach>
+    on duplicate key update 
+    <foreach collection="selective" item="column" separator=",">
+      ${column.escapedColumnName} = values(${column.escapedColumnName})
+    </foreach>
+  </insert>
+  <insert id="batchUpsert" parameterType="map">
+    insert into graph
+    (id, graph_code, graph_name, create_time, update_time, create_by, update_by, edges, 
+      valid)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.id,jdbcType=BIGINT}, #{item.graphCode,jdbcType=VARCHAR}, #{item.graphName,jdbcType=VARCHAR}, 
+        #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateTime,jdbcType=TIMESTAMP}, #{item.createBy,jdbcType=VARCHAR}, 
+        #{item.updateBy,jdbcType=VARCHAR}, #{item.edges,jdbcType=VARCHAR}, #{item.valid,jdbcType=TINYINT}
+        )
+    </foreach>
+    on duplicate key update 
+    id = values(id),
+    graph_code = values(graph_code),
+    graph_name = values(graph_name),
+    create_time = values(create_time),
+    update_time = values(update_time),
+    create_by = values(create_by),
+    update_by = values(update_by),
+    edges = values(edges),
+    valid = values(valid)
+  </insert>
+</mapper>
