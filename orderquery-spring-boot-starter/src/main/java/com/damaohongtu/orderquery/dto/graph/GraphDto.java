@@ -1,6 +1,10 @@
 package com.damaohongtu.orderquery.dto.graph;
 
+import com.damaohongtu.orderquery.dao.entity.Graph;
+import lombok.Builder;
 import lombok.Data;
+
+import java.util.Date;
 
 /**
  * @author: 大袤宏图
@@ -9,18 +13,33 @@ import lombok.Data;
  */
 
 @Data
+@Builder
 public class GraphDto {
 
-    /**
-     * 关联图编码
-     */
     private String graphCode;
 
-    /**
-     * 关联图名
-     */
     private String graphName;
 
+    private Date createTime;
 
+    private Date updateTime;
+
+    private String createBy;
+
+    private String updateBy;
+
+    private String edges;
+
+    public static GraphDto fromPo(Graph graph){
+        GraphDto graphDto = GraphDto.builder()
+                .graphCode(graph.getGraphCode())
+                .graphName(graph.getGraphName())
+                .createTime(graph.getCreateTime())
+                .updateTime(graph.getUpdateTime())
+                .createBy(graph.getCreateBy())
+                .updateBy(graph.getUpdateBy())
+                .build();
+        return graphDto;
+    }
 
 }

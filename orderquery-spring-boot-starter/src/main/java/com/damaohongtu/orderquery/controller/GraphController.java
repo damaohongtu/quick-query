@@ -1,10 +1,13 @@
 package com.damaohongtu.orderquery.controller;
 
-import com.damaohongtu.orderquery.dao.entity.Graph;
+import com.damaohongtu.orderquery.controller.response.BaseResponse;
+import com.damaohongtu.orderquery.controller.response.PageInfo;
 import com.damaohongtu.orderquery.dao.entity.Sharding;
 import com.damaohongtu.orderquery.dao.repo.GraphRepo;
 import com.damaohongtu.orderquery.dao.repo.ShardingRepo;
 import com.damaohongtu.orderquery.dto.config.OrderQueryConfigDto;
+import com.damaohongtu.orderquery.dto.graph.GraphDto;
+import com.damaohongtu.orderquery.enums.ResponseCodeEnum;
 import com.damaohongtu.orderquery.executor.DataBaseExecutor;
 import com.damaohongtu.orderquery.service.config.ConfigService;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,8 +28,8 @@ import java.util.Map;
  */
 
 @RestController
-@RequestMapping("/api/orderquery")
-public class ConfigController {
+@RequestMapping("/api/orderquery/graph")
+public class GraphController {
 
     @Resource
     private GraphRepo graphRepo;
@@ -41,18 +44,26 @@ public class ConfigController {
     private DataBaseExecutor dataBaseExecutor;
 
 
-    @GetMapping("/graph")
-    public List<Graph> queryGraph(){
-        return graphRepo.queryAllGraph();
+    @GetMapping("/list")
+    public BaseResponse queryGraph(@RequestParam Integer page, @RequestParam Integer size){
+
+        PageInfo<GraphDto> data = configService.list(page, size);
+
+        BaseResponse response = BaseResponse.builder()
+                .status(ResponseCodeEnum.SUCCESS.getStatus())
+                .code(ResponseCodeEnum.SUCCESS.getCode())
+                .data(data)
+                .build();
+        return response;
     }
 
 
-    @PostMapping("/graph/config")
+    @PostMapping("/config")
     public String configGraph(@RequestBody OrderQueryConfigDto OrderQueryConfigDto){
         return configService.config(OrderQueryConfigDto);
     }
 
-    @GetMapping("/graph/query")
+    @GetMapping("/query")
     public OrderQueryConfigDto queryGraph(@RequestParam String graphCode){
         return configService.query(graphCode);
     }

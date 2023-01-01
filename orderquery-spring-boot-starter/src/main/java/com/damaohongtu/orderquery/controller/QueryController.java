@@ -13,14 +13,14 @@ import javax.annotation.Resource;
 
 
 @RestController
-@RequestMapping("/api/orderquery")
+@RequestMapping("/api/orderquery/instance")
 public class QueryController {
 
     @Resource
     private OrderQueryClient orderQueryClient;
 
-    @GetMapping("/order/query")
-    public String test1(@RequestParam(name = "bizCode") String bizCode, @RequestParam(name = "serialNo") String serialNo) {
+    @GetMapping("/query")
+    public String query(@RequestParam(name = "bizCode") String bizCode, @RequestParam(name = "serialNo") String serialNo) {
         OrderQueryRequest request = new OrderQueryRequest();
         request.setBizCode(bizCode);
         request.setSerialNo(serialNo);

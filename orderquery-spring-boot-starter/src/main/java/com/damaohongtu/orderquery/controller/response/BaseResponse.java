@@ -1,4 +1,4 @@
-package com.damaohongtu.orderquery.dto.base;
+package com.damaohongtu.orderquery.controller.response;
 
 import lombok.Builder;
 import lombok.Data;

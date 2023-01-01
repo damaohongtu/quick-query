@@ -74,24 +74,24 @@ public class OrderQueryConfigDto {
     @NoArgsConstructor
     public static class ConfigInfo{
         /**
-         * 数据源：{"dataSource":"zft","table":"pay_global_index","hash":{"split":true,"dbSplit":true,"dbCount":8,"tableCount":128,"time":"month"}}
-         */
+         * 数据源
+         * */
         private String dataSource;
         /**
          * 输入字段：{"key":"pay_id"}
          */
         private String inputField;
         /**
-         * 输出字段：[{"key":"pay_id","name":"直付单号"}, {"key":"out_pay_id","name":"外部单号"}, {"key":"seller_id","name":"商户ID"}, {"key":"partner_trade_no","name":"外部交易单号"}]
-         */
+         * 输出字段
+         * */
         private String outputField;
         /**
          * 路由规则：^A.*$
          */
         private String routeRule;
         /**
-         * 关联关系：(eg. [{"fromNode":"test_node_02","fromField":"index_id","toNode":"test_node_03","toField":"refund_id"},{"fromNode":"test_node_02","fromField":"index_id","toNode":"test_node_04","toField":"settle_id"}])
-         */
+         * 关联关系
+         * */
         private String relations;
     }
 

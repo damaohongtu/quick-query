@@ -1,15 +1,18 @@
 package com.damaohongtu.orderquery.service.config;
 
+import com.damaohongtu.orderquery.controller.response.PageInfo;
 import com.damaohongtu.orderquery.dao.entity.Graph;
 import com.damaohongtu.orderquery.dao.entity.Node;
 import com.damaohongtu.orderquery.dao.repo.GraphRepo;
 import com.damaohongtu.orderquery.dao.repo.NodeRepo;
 import com.damaohongtu.orderquery.dto.config.OrderQueryConfigDto;
+import com.damaohongtu.orderquery.dto.graph.GraphDto;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author: 大袤宏图
@@ -83,6 +86,20 @@ public class ConfigService {
                 .build();
 
         return orderQueryConfigDto;
+    }
+
+    public PageInfo<GraphDto> list(Integer page, Integer size){
+        Long total = graphRepo.count();
+        List<Graph> graphList = graphRepo.list(page, size);
+        List<GraphDto> graphDtoList = graphList.stream().map(graph -> {
+            return GraphDto.fromPo(graph);
+        }).collect(Collectors.toList());
+
+        PageInfo<GraphDto> res = PageInfo.<GraphDto>builder()
+                .total(total)
+                .data(graphDtoList)
+                .build();
+        return res;
     }
 
 }
