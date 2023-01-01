@@ -96,7 +96,7 @@
                selectByExampleQueryId="true">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
-        <table tableName="nodeDTO"
+        <table tableName="node"
                domainObjectName="Node"
                enableCountByExample="true"
                enableUpdateByExample="true"
