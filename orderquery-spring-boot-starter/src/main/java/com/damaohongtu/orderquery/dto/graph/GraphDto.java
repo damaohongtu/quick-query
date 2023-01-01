@@ -9,7 +9,7 @@ import lombok.Data;
  */
 
 @Data
-public class Graph {
+public class GraphDto {
 
     /**
      * 关联图编码

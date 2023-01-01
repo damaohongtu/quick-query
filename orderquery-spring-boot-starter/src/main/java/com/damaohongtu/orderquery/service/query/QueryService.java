@@ -4,8 +4,8 @@ import com.alibaba.druid.util.StringUtils;
 import com.damaohongtu.orderquery.dto.context.OrderQueryContext;
 import com.damaohongtu.orderquery.dto.data.Condition;
 import com.damaohongtu.orderquery.dto.data.Element;
-import com.damaohongtu.orderquery.dto.graph.Node;
-import com.damaohongtu.orderquery.dto.graph.Relation;
+import com.damaohongtu.orderquery.dto.graph.NodeDto;
+import com.damaohongtu.orderquery.dto.graph.RelationDto;
 import com.damaohongtu.orderquery.enums.OrderQueryProcessorEnum;
 import com.damaohongtu.orderquery.util.SpringUtil;
 import com.damaohongtu.orderquery.processor.QueryProcessor;
@@ -32,21 +32,21 @@ public class QueryService {
     public void query(OrderQueryContext context){
 
         for (String entryNodeCode : context.getEntryNodeList()) {
-            Node entryNode = context.getGraph().get(entryNodeCode);
+            NodeDto entryNodeDto = context.getGraph().get(entryNodeCode);
             Condition entryCondition = Condition.builder()
-                    .key(entryNode.getInputField().getKey())
+                    .key(entryNodeDto.getInputField().getKey())
                     .values(Arrays.asList(context.getSerialNo())).build();
 
             this.traversal(context, entryNodeCode, entryCondition);
 
             while (CollectionUtils.isNotEmpty(context.getNextNode())) {
 
-                Relation relation = context.getNextNode().pop();
-                String toNodeCode = relation.getToNode();
+                RelationDto relationDto = context.getNextNode().pop();
+                String toNodeCode = relationDto.getToNode();
 
-                List<Object> conditions = this.genConditions(context, relation);
+                List<Object> conditions = this.genConditions(context, relationDto);
                 Condition condition = Condition.builder()
-                        .key(relation.getToField())
+                        .key(relationDto.getToField())
                         .values(conditions).build();
                 this.traversal(context, toNodeCode, condition);
             }
@@ -58,7 +58,7 @@ public class QueryService {
 
     private void traversal(OrderQueryContext context, String nodeCode, Condition condition) {
         // 1. 获取入口节点
-        Node node = context.getGraph().get(nodeCode);
+        NodeDto nodeDTO = context.getGraph().get(nodeCode);
 
         // 2. 更新取数进度
         condition.getValues().forEach(fromValue -> {
@@ -66,36 +66,36 @@ public class QueryService {
         });
 
         // 3. 取数
-        List<List<Element>> entryNodeRes = this.fetchData(node, condition);
+        List<List<Element>> entryNodeRes = this.fetchData(nodeDTO, condition);
 
         // 4. 更新查询结果
         context.recordResult(nodeCode, entryNodeRes);
 
         // 5. 更新nextNode: 找到邻接节点
-        List<Relation> relations = node.getNeighborNode();
-        context.updateNextNode(relations, entryNodeRes);
+        List<RelationDto> relationDtos = nodeDTO.getNeighborNode();
+        context.updateNextNode(relationDtos, entryNodeRes);
     }
 
 
     /**
      * 通过历史数据 + 映射关系构造新的查询条件
      * @param context
-     * @param relation
+     * @param relationDto
      * @return
      */
-    private List<Object> genConditions(OrderQueryContext context, Relation relation) {
+    private List<Object> genConditions(OrderQueryContext context, RelationDto relationDto) {
         List<Object> conditions = new ArrayList<>();
 
-        String fromNodeCode = relation.getFromNode();
+        String fromNodeCode = relationDto.getFromNode();
         List<List<Element>> rows = context.getCurrentResults().get(fromNodeCode);
 
         for (List<Element> row : rows){
             for(Element element : row){
-                if(StringUtils.equals(relation.getFromField(), element.getKey())){
+                if(StringUtils.equals(relationDto.getFromField(), element.getKey())){
                     // 过滤已经查询过的条件取值
                     String key = String.format("%s_%s_%s",
-                            relation.getToNode(),
-                            relation.getToField(),
+                            relationDto.getToNode(),
+                            relationDto.getToField(),
                             String.valueOf(element.getValue()));
                     if(!context.getProcess().containsKey(key)
                             || Objects.equals(context.getProcess().get(key), Boolean.FALSE)){
@@ -111,13 +111,13 @@ public class QueryService {
 
     /**
      * 获取数据：基于反射，选择相应的数据源，获取数据
-     * @param node
+     * @param nodeDTO
      * @param condition
      * @return
      */
-    private List<List<Element>> fetchData(Node node, Condition condition)  {
+    private List<List<Element>> fetchData(NodeDto nodeDTO, Condition condition)  {
 
-        String nodeType = node.getNodeType();
+        String nodeType = nodeDTO.getNodeType();
 
         Class clazz = null;
         try {
@@ -127,7 +127,7 @@ public class QueryService {
         }
         QueryProcessor processor = (QueryProcessor) SpringUtil.getBean(clazz);
 
-        return processor.query(node, condition);
+        return processor.query(nodeDTO, condition);
     }
 
 

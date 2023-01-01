@@ -8,7 +8,7 @@ import lombok.Data;
  * Description: 节点之间的关系
  */
 @Data
-public class Relation {
+public class RelationDto {
 
     private String fromNode;
 

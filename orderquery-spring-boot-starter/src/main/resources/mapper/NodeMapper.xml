@@ -95,7 +95,7 @@
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
-    from node
+    from nodeDTO
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -118,7 +118,7 @@
     </if>
     'true' as QUERYID,
     <include refid="Base_Column_List" />
-    from node
+    from nodeDTO
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -139,15 +139,15 @@
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
-    from node
+    from nodeDTO
     where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from node
+    delete from nodeDTO
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <delete id="deleteByExample" parameterType="com.damaohongtu.orderquery.dao.entity.NodeExample">
-    delete from node
+    delete from nodeDTO
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -156,7 +156,7 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into node (node_code, graph_code, node_name, 
+    insert into nodeDTO (node_code, graph_code, node_name,
       node_type, data_source, input_field, 
       route_rule, neighbor_node, coordinate, 
       create_time, update_time, create_by, 
@@ -173,7 +173,7 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into node
+    insert into nodeDTO
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="nodeCode != null">
         node_code,
@@ -270,13 +270,13 @@
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.damaohongtu.orderquery.dao.entity.NodeExample" resultType="java.lang.Long">
-    select count(*) from node
+    select count(*) from nodeDTO
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update node
+    update nodeDTO
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=BIGINT},
@@ -332,7 +332,7 @@
     </if>
   </update>
   <update id="updateByExampleWithBLOBs" parameterType="map">
-    update node
+    update nodeDTO
     set id = #{record.id,jdbcType=BIGINT},
       node_code = #{record.nodeCode,jdbcType=VARCHAR},
       graph_code = #{record.graphCode,jdbcType=VARCHAR},
@@ -354,7 +354,7 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update node
+    update nodeDTO
     set id = #{record.id,jdbcType=BIGINT},
       node_code = #{record.nodeCode,jdbcType=VARCHAR},
       graph_code = #{record.graphCode,jdbcType=VARCHAR},
@@ -375,7 +375,7 @@
     </if>
   </update>
   <update id="updateByPrimaryKeySelective" parameterType="com.damaohongtu.orderquery.dao.entity.Node">
-    update node
+    update nodeDTO
     <set>
       <if test="nodeCode != null">
         node_code = #{nodeCode,jdbcType=VARCHAR},
@@ -426,7 +426,7 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.damaohongtu.orderquery.dao.entity.Node">
-    update node
+    update nodeDTO
     set node_code = #{nodeCode,jdbcType=VARCHAR},
       graph_code = #{graphCode,jdbcType=VARCHAR},
       node_name = #{nodeName,jdbcType=VARCHAR},
@@ -445,7 +445,7 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.damaohongtu.orderquery.dao.entity.Node">
-    update node
+    update nodeDTO
     set node_code = #{nodeCode,jdbcType=VARCHAR},
       graph_code = #{graphCode,jdbcType=VARCHAR},
       node_name = #{nodeName,jdbcType=VARCHAR},
@@ -471,7 +471,7 @@
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
-    from node
+    from nodeDTO
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -486,7 +486,7 @@
     </if>
     'true' as QUERYID,
     <include refid="Base_Column_List" />
-    from node
+    from nodeDTO
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -495,7 +495,7 @@
     </if>
   </select>
   <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
-    insert into node
+    insert into nodeDTO
     (node_code, graph_code, node_name, node_type, data_source, input_field, route_rule, 
       neighbor_node, coordinate, create_time, update_time, create_by, update_by, valid, 
       output_field)
@@ -510,7 +510,7 @@
     </foreach>
   </insert>
   <insert id="batchInsertSelective" keyColumn="id" keyProperty="list.id" parameterType="map" useGeneratedKeys="true">
-    insert into node (
+    insert into nodeDTO (
     <foreach collection="selective" item="column" separator=",">
       ${column.escapedColumnName}
     </foreach>
@@ -569,7 +569,7 @@
     </foreach>
   </insert>
   <insert id="upsertSelective" keyColumn="id" keyProperty="id" parameterType="com.damaohongtu.orderquery.dao.entity.Node" useGeneratedKeys="true">
-    insert into node
+    insert into nodeDTO
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
@@ -724,7 +724,7 @@
     </trim>
   </insert>
   <insert id="upsert" keyColumn="id" keyProperty="id" parameterType="com.damaohongtu.orderquery.dao.entity.Node" useGeneratedKeys="true">
-    insert into node
+    insert into nodeDTO
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
@@ -786,7 +786,7 @@
     </trim>
   </insert>
   <insert id="upsertWithBLOBs" keyColumn="id" keyProperty="id" parameterType="com.damaohongtu.orderquery.dao.entity.Node" useGeneratedKeys="true">
-    insert into node
+    insert into nodeDTO
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
@@ -851,7 +851,7 @@
     </trim>
   </insert>
   <insert id="batchUpsertSelective" parameterType="map">
-    insert into node (
+    insert into nodeDTO (
     <foreach collection="selective" item="column" separator=",">
       ${column.escapedColumnName}
     </foreach>
@@ -917,7 +917,7 @@
     </foreach>
   </insert>
   <insert id="batchUpsert" parameterType="map">
-    insert into node
+    insert into nodeDTO
     (id, node_code, graph_code, node_name, node_type, data_source, input_field, route_rule, 
       neighbor_node, coordinate, create_time, update_time, create_by, update_by, valid
       )
@@ -948,7 +948,7 @@
     valid = values(valid)
   </insert>
   <insert id="batchUpsertWithBLOBs" parameterType="map">
-    insert into node
+    insert into nodeDTO
     (id, node_code, graph_code, node_name, node_type, data_source, input_field, route_rule, 
       neighbor_node, coordinate, create_time, update_time, create_by, update_by, valid, 
       output_field)

@@ -1,12 +1,12 @@
 package com.damaohongtu.orderquery.controller;
 
+import com.damaohongtu.orderquery.dao.entity.Graph;
+import com.damaohongtu.orderquery.dao.entity.Sharding;
+import com.damaohongtu.orderquery.dao.repo.GraphRepo;
+import com.damaohongtu.orderquery.dao.repo.ShardingRepo;
 import com.damaohongtu.orderquery.dto.config.OrderQueryConfigDto;
 import com.damaohongtu.orderquery.executor.DataBaseExecutor;
 import com.damaohongtu.orderquery.service.config.ConfigService;
-import com.damaohongtu.orderquery.dal.entity.OrderQueryGraph;
-import com.damaohongtu.orderquery.dal.entity.OrderQueryHash;
-import com.damaohongtu.orderquery.dal.repo.OrderQueryGraphRepo;
-import com.damaohongtu.orderquery.dal.repo.OrderQueryHashRepo;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,21 +29,21 @@ import java.util.Map;
 public class ConfigController {
 
     @Resource
+    private GraphRepo graphRepo;
+
+    @Resource
+    private ShardingRepo shardingRepo;
+
+    @Resource
     private ConfigService configService;
-
-    @Resource
-    private OrderQueryGraphRepo OrderQueryGraphRepo;
-
-    @Resource
-    private OrderQueryHashRepo OrderQueryHashRepo;
 
     @Resource
     private DataBaseExecutor dataBaseExecutor;
 
 
     @GetMapping("/graph")
-    public List<OrderQueryGraph> queryGraph(){
-        return OrderQueryGraphRepo.queryAllGraph();
+    public List<Graph> queryGraph(){
+        return graphRepo.queryAllGraph();
     }
 
 
@@ -59,22 +59,22 @@ public class ConfigController {
 
 
     @GetMapping("/hash")
-    public List<OrderQueryHash> queryAllHash(){
-        return OrderQueryHashRepo.queryAll();
+    public List<Sharding> queryAllHash(){
+        return shardingRepo.queryAllSharding();
     }
 
 
     @PostMapping("/hash/config")
-    public String configHash(@RequestBody OrderQueryHash OrderQueryHash){
+    public String configHash(@RequestBody Sharding sharding){
 
-        OrderQueryHashRepo.insert(OrderQueryHash);
+        shardingRepo.insert(sharding);
 
         return "SUCCESS";
     }
 
     @GetMapping("/hash/query")
-    public OrderQueryHash queryHash(@RequestParam String code){
-        return OrderQueryHashRepo.select(code);
+    public Sharding queryHash(@RequestParam String code){
+        return shardingRepo.selectByCode(code);
     }
 
     @GetMapping("/database")

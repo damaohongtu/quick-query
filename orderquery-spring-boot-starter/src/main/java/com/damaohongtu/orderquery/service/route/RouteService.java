@@ -1,7 +1,7 @@
 package com.damaohongtu.orderquery.service.route;
 
 import com.damaohongtu.orderquery.dto.context.OrderQueryContext;
-import com.damaohongtu.orderquery.dto.graph.Node;
+import com.damaohongtu.orderquery.dto.graph.NodeDto;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -22,13 +22,13 @@ public class RouteService {
         List<String> entryNodeList = new ArrayList<String>();
         List<String> allNodeCode = new ArrayList<>();
 
-        Map<String, Node> graph = context.getGraph();
+        Map<String, NodeDto> graph = context.getGraph();
 
         // 正则匹配路由
         for(String nodeCode : graph.keySet()){
             allNodeCode.add(nodeCode);
-            Node node = graph.get(nodeCode);
-            String rule = node.getRouteRule();
+            NodeDto nodeDTO = graph.get(nodeCode);
+            String rule = nodeDTO.getRouteRule();
             if(this.match(context.getSerialNo(), rule)){
                 entryNodeList.add(nodeCode);
             }

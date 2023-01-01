@@ -1,8 +1,8 @@
 package com.damaohongtu.orderquery.dto.graph;
 
+import com.damaohongtu.orderquery.dao.entity.Node;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.damaohongtu.orderquery.dal.entity.OrderQueryNode;
 import com.damaohongtu.orderquery.dto.data.Element;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,7 +19,7 @@ import java.util.List;
 @Data
 @Builder
 @AllArgsConstructor
-public class Node {
+public class NodeDto {
 
     /**
      * 节点编码
@@ -64,11 +64,11 @@ public class Node {
     /**
      * 邻接节点
      */
-    private List<Relation> neighborNode;
+    private List<RelationDto> neighborNode;
 
-    public static Node fromDo(OrderQueryNode node){
+    public static NodeDto fromPo(Node node){
         Gson gson = new Gson();
-        Node nodeDto = Node.builder()
+        NodeDto nodeDto = NodeDto.builder()
                 .nodeCode(node.getNodeCode())
                 .graphCode(node.getGraphCode())
                 .nodeName(node.getNodeName())
@@ -77,7 +77,7 @@ public class Node {
                 .inputField(gson.fromJson(node.getInputField(), Element.class))
                 .outputField(gson.fromJson(node.getOutputField(), new TypeToken<List<Element>>(){}.getType()))
                 .routeRule(node.getRouteRule())
-                .neighborNode(gson.fromJson(node.getNeighborNode(), new TypeToken<List<Relation>>(){}.getType()))
+                .neighborNode(gson.fromJson(node.getNeighborNode(), new TypeToken<List<RelationDto>>(){}.getType()))
                 .build();
         return nodeDto;
     }

@@ -1,10 +1,10 @@
 package com.damaohongtu.orderquery.service.config;
 
+import com.damaohongtu.orderquery.dao.entity.Graph;
+import com.damaohongtu.orderquery.dao.entity.Node;
+import com.damaohongtu.orderquery.dao.repo.GraphRepo;
+import com.damaohongtu.orderquery.dao.repo.NodeRepo;
 import com.damaohongtu.orderquery.dto.config.OrderQueryConfigDto;
-import com.damaohongtu.orderquery.dal.entity.OrderQueryGraph;
-import com.damaohongtu.orderquery.dal.entity.OrderQueryNode;
-import com.damaohongtu.orderquery.dal.repo.OrderQueryGraphRepo;
-import com.damaohongtu.orderquery.dal.repo.OrderQueryNodeRepo;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -21,43 +21,43 @@ import java.util.List;
 public class ConfigService {
 
     @Resource
-    private OrderQueryGraphRepo OrderQueryGraphRepo;
+    private GraphRepo graphRepo;
 
     @Resource
-    private OrderQueryNodeRepo OrderQueryNodeRepo;
+    private NodeRepo nodeRepo;
 
     public String config(OrderQueryConfigDto OrderQueryConfigDto){
 
-        OrderQueryGraph OrderQueryGraph = new OrderQueryGraph();
-        OrderQueryGraph.setGraphCode(OrderQueryConfigDto.getBizCode());
-        OrderQueryGraph.setGraphName(OrderQueryConfigDto.getBizName());
-        OrderQueryGraph.setEdges(OrderQueryConfigDto.getEdges());
-        OrderQueryGraphRepo.insert(OrderQueryGraph);
+        Graph graph = new Graph();
+        graph.setGraphCode(OrderQueryConfigDto.getBizCode());
+        graph.setGraphName(OrderQueryConfigDto.getBizName());
+        graph.setEdges(OrderQueryConfigDto.getEdges());
+        graphRepo.insert(graph);
 
         for(OrderQueryConfigDto.Node node : OrderQueryConfigDto.getNodes()){
-            OrderQueryNode OrderQueryNode = new OrderQueryNode();
-            OrderQueryNode.setNodeCode(node.getId());
-            OrderQueryNode.setGraphCode(OrderQueryConfigDto.getBizCode());
-            OrderQueryNode.setNodeName(node.getNodeName());
-            OrderQueryNode.setNodeType(node.getNodeType());
-            OrderQueryNode.setDataSource(node.getConfigInfo().getDataSource());
-            OrderQueryNode.setInputField(node.getConfigInfo().getInputField());
-            OrderQueryNode.setOutputField(node.getConfigInfo().getOutputField());
-            OrderQueryNode.setRouteRule(node.getConfigInfo().getRouteRule());
-            OrderQueryNode.setNeighborNode(node.getConfigInfo().getRelations());
-            OrderQueryNode.setCoordinate(node.getCoordinate());
-            OrderQueryNodeRepo.insert(OrderQueryNode);
+            Node nodePo = new Node();
+            nodePo.setNodeCode(node.getId());
+            nodePo.setGraphCode(OrderQueryConfigDto.getBizCode());
+            nodePo.setNodeName(node.getNodeName());
+            nodePo.setNodeType(node.getNodeType());
+            nodePo.setDataSource(node.getConfigInfo().getDataSource());
+            nodePo.setInputField(node.getConfigInfo().getInputField());
+            nodePo.setOutputField(node.getConfigInfo().getOutputField());
+            nodePo.setRouteRule(node.getConfigInfo().getRouteRule());
+            nodePo.setNeighborNode(node.getConfigInfo().getRelations());
+            nodePo.setCoordinate(node.getCoordinate());
+            nodeRepo.insert(nodePo);
         }
 
         return "SUCCESS";
     }
 
     public OrderQueryConfigDto query(String graphCode){
-        OrderQueryGraph OrderQueryGraph = OrderQueryGraphRepo.selectByGraph(graphCode);
-        List<OrderQueryNode> OrderQueryNodeList = OrderQueryNodeRepo.selectByGraph(graphCode);
+        Graph graph = graphRepo.selectByCode(graphCode);
+        List<Node> nodeList = nodeRepo.selectByGraph(graphCode);
 
         List<OrderQueryConfigDto.Node> nodes = new ArrayList<>();
-        OrderQueryNodeList.forEach(item -> {
+        nodeList.forEach(item -> {
             OrderQueryConfigDto.ConfigInfo configInfo = OrderQueryConfigDto.ConfigInfo.builder()
                     .dataSource(item.getDataSource())
                     .inputField(item.getInputField())
@@ -75,11 +75,11 @@ public class ConfigService {
         });
 
         OrderQueryConfigDto orderQueryConfigDto = OrderQueryConfigDto.builder()
-                .bizCode(OrderQueryGraph.getGraphCode())
-                .bizName(OrderQueryGraph.getGraphName())
+                .bizCode(graph.getGraphCode())
+                .bizName(graph.getGraphName())
                 .bizDesc("")
                 .nodes(nodes)
-                .edges(OrderQueryGraph.getEdges())
+                .edges(graph.getEdges())
                 .build();
 
         return orderQueryConfigDto;

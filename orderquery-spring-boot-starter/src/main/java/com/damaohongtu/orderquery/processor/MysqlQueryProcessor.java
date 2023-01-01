@@ -1,15 +1,15 @@
 package com.damaohongtu.orderquery.processor;
 
+import com.damaohongtu.orderquery.dao.entity.Sharding;
+import com.damaohongtu.orderquery.dao.repo.ShardingRepo;
 import com.damaohongtu.orderquery.dto.data.Condition;
 import com.damaohongtu.orderquery.dto.data.Element;
-import com.damaohongtu.orderquery.dto.graph.Node;
+import com.damaohongtu.orderquery.dto.graph.NodeDto;
 import com.damaohongtu.orderquery.dto.source.MysqlSource;
 import com.damaohongtu.orderquery.enums.DataSourceTypeEnum;
 import com.damaohongtu.orderquery.executor.DataBaseExecutor;
 import com.damaohongtu.orderquery.util.ShardingUtil;
 import com.google.gson.Gson;
-import com.damaohongtu.orderquery.dal.entity.OrderQueryHash;
-import com.damaohongtu.orderquery.dal.repo.OrderQueryHashRepo;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -37,24 +37,24 @@ public class MysqlQueryProcessor extends QueryProcessor {
     private DataBaseExecutor dataBaseExecutor;
 
     @Resource
-    private OrderQueryHashRepo OrderQueryHashRepo;
+    private ShardingRepo shardingRepo;
 
     @Override
-    public List<Map> fetch(Node node, Condition condition){
+    public List<Map> fetch(NodeDto nodeDTO, Condition condition){
 
         List<Map>  result = new ArrayList<>();
         List<Object> values = condition.getValues();
 
         // 解析数据源
         Gson gson = new Gson();
-        MysqlSource config = gson.fromJson(node.getDataSource(), MysqlSource.class);
+        MysqlSource config = gson.fromJson(nodeDTO.getDataSource(), MysqlSource.class);
 
         // 获取分库分表信息
         String dataSource = config.getDataSource();
 
-        OrderQueryHash OrderQueryHash = OrderQueryHashRepo.select(config.getHash());
+        Sharding sharding = shardingRepo.selectByCode(config.getHash());
 
-        String script = OrderQueryHash.getScript();
+        String script = sharding.getScript();
 
         for(Object serialNo : values){
 
@@ -64,7 +64,7 @@ public class MysqlQueryProcessor extends QueryProcessor {
             // 分库分表
             String table = config.getTable() + tablePostfix;
             String resultField = String.join(",",
-                    node.getOutputField().stream().map(Element::getKey).collect(Collectors.toList()));
+                    nodeDTO.getOutputField().stream().map(Element::getKey).collect(Collectors.toList()));
 
             // 组装SQL
             String sql = this.genMysqlSql(resultField, table, condition.getKey(), String.valueOf(serialNo));

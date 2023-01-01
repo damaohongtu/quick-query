@@ -2,7 +2,7 @@ package com.damaohongtu.orderquery.processor;
 
 import com.damaohongtu.orderquery.dto.data.Condition;
 import com.damaohongtu.orderquery.dto.data.Element;
-import com.damaohongtu.orderquery.dto.graph.Node;
+import com.damaohongtu.orderquery.dto.graph.NodeDto;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -19,12 +19,12 @@ import java.util.stream.Collectors;
 @Component
 public abstract class QueryProcessor {
 
-    public List<List<Element>> query(Node node, Condition condition){
+    public List<List<Element>> query(NodeDto nodeDTO, Condition condition){
         List<List<Element>> result = new ArrayList<>();
 
-        List<Map> rows = this.fetch(node, condition);
+        List<Map> rows = this.fetch(nodeDTO, condition);
 
-        Map<String, Element> resultFieldMap = node.getOutputField().stream()
+        Map<String, Element> resultFieldMap = nodeDTO.getOutputField().stream()
                 .collect(Collectors.toMap(Element::getKey, Element -> Element));
 
         for(Map row : rows){
@@ -44,10 +44,10 @@ public abstract class QueryProcessor {
 
     /**
      * 取数据，所有数据返回为List<Map>
-     * @param node
+     * @param nodeDTO
      * @param condition
      * @return
      * @throws Exception
      */
-    public abstract List<Map> fetch(Node node, Condition condition);
+    public abstract List<Map> fetch(NodeDto nodeDTO, Condition condition);
 }

@@ -1,7 +1,7 @@
 package com.damaohongtu.orderquery.processor;
 
 import com.damaohongtu.orderquery.dto.data.Condition;
-import com.damaohongtu.orderquery.dto.graph.Node;
+import com.damaohongtu.orderquery.dto.graph.NodeDto;
 import com.damaohongtu.orderquery.executor.HttpExecutor;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +16,7 @@ public class HttpQueryProcessor extends QueryProcessor {
     private HttpExecutor httpExecutor;
 
     @Override
-    public List<Map> fetch(Node node, Condition condition) {
+    public List<Map> fetch(NodeDto nodeDTO, Condition condition) {
         return null;
     }
 }

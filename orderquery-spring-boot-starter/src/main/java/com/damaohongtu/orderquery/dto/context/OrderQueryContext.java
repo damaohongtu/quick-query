@@ -3,8 +3,8 @@ package com.damaohongtu.orderquery.dto.context;
 import com.alibaba.druid.util.StringUtils;
 import com.damaohongtu.orderquery.dto.client.NodeDataRep;
 import com.damaohongtu.orderquery.dto.data.Element;
-import com.damaohongtu.orderquery.dto.graph.Node;
-import com.damaohongtu.orderquery.dto.graph.Relation;
+import com.damaohongtu.orderquery.dto.graph.NodeDto;
+import com.damaohongtu.orderquery.dto.graph.RelationDto;
 import com.damaohongtu.orderquery.dto.client.OrderQueryResponse;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -42,7 +42,7 @@ public class OrderQueryContext {
     /**
      * 图信息, 在上下文中属于静态配置信息
      */
-    private Map<String, Node> graph;
+    private Map<String, NodeDto> graph;
 
     /**
      * 待查询流水号
@@ -62,7 +62,7 @@ public class OrderQueryContext {
     /**
      * 待查询的节点
      */
-    private LinkedList<Relation> nextNode;
+    private LinkedList<RelationDto> nextNode;
 
     /**
      * 当前查询结果
@@ -85,10 +85,10 @@ public class OrderQueryContext {
         List<NodeDataRep> rows = new ArrayList<>();
 
         for(Object key:globalResMap.keySet()){
-            Node node = graph.get(String.valueOf(key));
+            NodeDto nodeDTO = graph.get(String.valueOf(key));
             NodeDataRep nodeDataRep = NodeDataRep.builder()
-                    .nodeCode(node.getNodeCode())
-                    .nodeName(node.getNodeName())
+                    .nodeCode(nodeDTO.getNodeCode())
+                    .nodeName(nodeDTO.getNodeName())
                     .rows(globalResMap.get(key))
                     .build();
             rows.add(nodeDataRep);
@@ -117,21 +117,21 @@ public class OrderQueryContext {
     /**
      * 更新待处理节点：当前节点在"progress"中没有记录或者还有条件没有被遍历，则加入待遍历的节点。
      * 按照节点进行遍历而非按照条件取值进行遍历，原因是按照节点遍历可以多个取值同时执行查询。
-     * @param relations
+     * @param relationDtos
      * @param entryNodeRes
      */
-    public void updateNextNode(List<Relation> relations, List<List<Element>> entryNodeRes){
-        for(Relation relation: relations){
+    public void updateNextNode(List<RelationDto> relationDtos, List<List<Element>> entryNodeRes){
+        for(RelationDto relationDto : relationDtos){
             TAG: for (List<Element> row : entryNodeRes){
                 for(Element element : row){
-                    if(StringUtils.equals(relation.getFromField(), element.getKey())){
+                    if(StringUtils.equals(relationDto.getFromField(), element.getKey())){
                         String key = String.format("%s_%s_%s",
-                                relation.getToNode(),
-                                relation.getToField(),
+                                relationDto.getToNode(),
+                                relationDto.getToField(),
                                 String.valueOf(element.getValue()));
                         if(!this.process.containsKey(key)
                                 || Objects.equals(this.process.get(key), Boolean.FALSE)){
-                            this.nextNode.add(relation);
+                            this.nextNode.add(relationDto);
                             break TAG;
                         }
                     }
