@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.damaohongtu.orderquery.dao.mapper.ShardingMapper">
-  <resultMap id="BaseResultMap" type="com.damaohongtu.orderquery.dao.entity.Sharding">
+<mapper namespace="com.damaohongtu.quickquery.dao.mapper.ShardingMapper">
+  <resultMap id="BaseResultMap" type="com.damaohongtu.quickquery.dao.entity.Sharding">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="code" jdbcType="VARCHAR" property="code" />
     <result column="name" jdbcType="VARCHAR" property="name" />
@@ -11,7 +11,7 @@
     <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
     <result column="valid" jdbcType="TINYINT" property="valid" />
   </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.damaohongtu.orderquery.dao.entity.Sharding">
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.damaohongtu.quickquery.dao.entity.Sharding">
     <result column="script" jdbcType="LONGVARCHAR" property="script" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -78,7 +78,7 @@
   <sql id="Blob_Column_List">
     script
   </sql>
-  <select id="selectByExampleWithBLOBs" parameterType="com.damaohongtu.orderquery.dao.entity.ShardingExample" resultMap="ResultMapWithBLOBs">
+  <select id="selectByExampleWithBLOBs" parameterType="com.damaohongtu.quickquery.dao.entity.ShardingExample" resultMap="ResultMapWithBLOBs">
     select
     <if test="distinct">
       distinct
@@ -103,7 +103,7 @@
       </if>
     </if>
   </select>
-  <select id="selectByExample" parameterType="com.damaohongtu.orderquery.dao.entity.ShardingExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.damaohongtu.quickquery.dao.entity.ShardingExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
@@ -138,13 +138,13 @@
     delete from sharding
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <delete id="deleteByExample" parameterType="com.damaohongtu.orderquery.dao.entity.ShardingExample">
+  <delete id="deleteByExample" parameterType="com.damaohongtu.quickquery.dao.entity.ShardingExample">
     delete from sharding
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.damaohongtu.orderquery.dao.entity.Sharding">
+  <insert id="insert" parameterType="com.damaohongtu.quickquery.dao.entity.Sharding">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -155,7 +155,7 @@
       #{updateTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, #{updateBy,jdbcType=VARCHAR}, 
       #{valid,jdbcType=TINYINT}, #{script,jdbcType=LONGVARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.damaohongtu.orderquery.dao.entity.Sharding">
+  <insert id="insertSelective" parameterType="com.damaohongtu.quickquery.dao.entity.Sharding">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -213,7 +213,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.damaohongtu.orderquery.dao.entity.ShardingExample" resultType="java.lang.Long">
+  <select id="countByExample" parameterType="com.damaohongtu.quickquery.dao.entity.ShardingExample" resultType="java.lang.Long">
     select count(*) from sharding
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
@@ -283,7 +283,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.damaohongtu.orderquery.dao.entity.Sharding">
+  <update id="updateByPrimaryKeySelective" parameterType="com.damaohongtu.quickquery.dao.entity.Sharding">
     update sharding
     <set>
       <if test="code != null">
@@ -313,7 +313,7 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.damaohongtu.orderquery.dao.entity.Sharding">
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.damaohongtu.quickquery.dao.entity.Sharding">
     update sharding
     set code = #{code,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
@@ -325,7 +325,7 @@
       script = #{script,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.damaohongtu.orderquery.dao.entity.Sharding">
+  <update id="updateByPrimaryKey" parameterType="com.damaohongtu.quickquery.dao.entity.Sharding">
     update sharding
     set code = #{code,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
@@ -336,7 +336,7 @@
       valid = #{valid,jdbcType=TINYINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <select id="selectByExampleWithBLOBsWithRowbounds" parameterType="com.damaohongtu.orderquery.dao.entity.ShardingExample" resultMap="ResultMapWithBLOBs">
+  <select id="selectByExampleWithBLOBsWithRowbounds" parameterType="com.damaohongtu.quickquery.dao.entity.ShardingExample" resultMap="ResultMapWithBLOBs">
     select
     <if test="distinct">
       distinct
@@ -353,7 +353,7 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByExampleWithRowbounds" parameterType="com.damaohongtu.orderquery.dao.entity.ShardingExample" resultMap="BaseResultMap">
+  <select id="selectByExampleWithRowbounds" parameterType="com.damaohongtu.quickquery.dao.entity.ShardingExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
@@ -416,7 +416,7 @@
       )
     </foreach>
   </insert>
-  <insert id="upsertSelective" keyColumn="id" keyProperty="id" parameterType="com.damaohongtu.orderquery.dao.entity.Sharding" useGeneratedKeys="true">
+  <insert id="upsertSelective" keyColumn="id" keyProperty="id" parameterType="com.damaohongtu.quickquery.dao.entity.Sharding" useGeneratedKeys="true">
     insert into sharding
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -508,7 +508,7 @@
       </if>
     </trim>
   </insert>
-  <insert id="upsert" keyColumn="id" keyProperty="id" parameterType="com.damaohongtu.orderquery.dao.entity.Sharding" useGeneratedKeys="true">
+  <insert id="upsert" keyColumn="id" keyProperty="id" parameterType="com.damaohongtu.quickquery.dao.entity.Sharding" useGeneratedKeys="true">
     insert into sharding
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -549,7 +549,7 @@
       valid = #{valid,jdbcType=TINYINT},
     </trim>
   </insert>
-  <insert id="upsertWithBLOBs" keyColumn="id" keyProperty="id" parameterType="com.damaohongtu.orderquery.dao.entity.Sharding" useGeneratedKeys="true">
+  <insert id="upsertWithBLOBs" keyColumn="id" keyProperty="id" parameterType="com.damaohongtu.quickquery.dao.entity.Sharding" useGeneratedKeys="true">
     insert into sharding
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

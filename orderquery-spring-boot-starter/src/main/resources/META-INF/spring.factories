@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.damaohongtu.orderquery.autoconfig.OrderQueryAutoConfiguration
+  com.damaohongtu.quickquery.autoconfig.QuickQueryAutoConfiguration

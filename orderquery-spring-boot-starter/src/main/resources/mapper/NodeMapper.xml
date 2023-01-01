@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.damaohongtu.orderquery.dao.mapper.NodeMapper">
-  <resultMap id="BaseResultMap" type="com.damaohongtu.orderquery.dao.entity.Node">
+<mapper namespace="com.damaohongtu.quickquery.dao.mapper.NodeMapper">
+  <resultMap id="BaseResultMap" type="com.damaohongtu.quickquery.dao.entity.Node">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="node_code" jdbcType="VARCHAR" property="nodeCode" />
     <result column="graph_code" jdbcType="VARCHAR" property="graphCode" />
@@ -18,7 +18,7 @@
     <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
     <result column="valid" jdbcType="TINYINT" property="valid" />
   </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.damaohongtu.orderquery.dao.entity.Node">
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.damaohongtu.quickquery.dao.entity.Node">
     <result column="output_field" jdbcType="LONGVARCHAR" property="outputField" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -86,7 +86,7 @@
   <sql id="Blob_Column_List">
     output_field
   </sql>
-  <select id="selectByExampleWithBLOBs" parameterType="com.damaohongtu.orderquery.dao.entity.NodeExample" resultMap="ResultMapWithBLOBs">
+  <select id="selectByExampleWithBLOBs" parameterType="com.damaohongtu.quickquery.dao.entity.NodeExample" resultMap="ResultMapWithBLOBs">
     select
     <if test="distinct">
       distinct
@@ -111,7 +111,7 @@
       </if>
     </if>
   </select>
-  <select id="selectByExample" parameterType="com.damaohongtu.orderquery.dao.entity.NodeExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.damaohongtu.quickquery.dao.entity.NodeExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
@@ -146,13 +146,13 @@
     delete from nodeDTO
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <delete id="deleteByExample" parameterType="com.damaohongtu.orderquery.dao.entity.NodeExample">
+  <delete id="deleteByExample" parameterType="com.damaohongtu.quickquery.dao.entity.NodeExample">
     delete from nodeDTO
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.damaohongtu.orderquery.dao.entity.Node">
+  <insert id="insert" parameterType="com.damaohongtu.quickquery.dao.entity.Node">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -169,7 +169,7 @@
       #{updateBy,jdbcType=VARCHAR}, #{valid,jdbcType=TINYINT}, #{outputField,jdbcType=LONGVARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.damaohongtu.orderquery.dao.entity.Node">
+  <insert id="insertSelective" parameterType="com.damaohongtu.quickquery.dao.entity.Node">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -269,7 +269,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.damaohongtu.orderquery.dao.entity.NodeExample" resultType="java.lang.Long">
+  <select id="countByExample" parameterType="com.damaohongtu.quickquery.dao.entity.NodeExample" resultType="java.lang.Long">
     select count(*) from nodeDTO
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
@@ -374,7 +374,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.damaohongtu.orderquery.dao.entity.Node">
+  <update id="updateByPrimaryKeySelective" parameterType="com.damaohongtu.quickquery.dao.entity.Node">
     update nodeDTO
     <set>
       <if test="nodeCode != null">
@@ -425,7 +425,7 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.damaohongtu.orderquery.dao.entity.Node">
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.damaohongtu.quickquery.dao.entity.Node">
     update nodeDTO
     set node_code = #{nodeCode,jdbcType=VARCHAR},
       graph_code = #{graphCode,jdbcType=VARCHAR},
@@ -444,7 +444,7 @@
       output_field = #{outputField,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.damaohongtu.orderquery.dao.entity.Node">
+  <update id="updateByPrimaryKey" parameterType="com.damaohongtu.quickquery.dao.entity.Node">
     update nodeDTO
     set node_code = #{nodeCode,jdbcType=VARCHAR},
       graph_code = #{graphCode,jdbcType=VARCHAR},
@@ -462,7 +462,7 @@
       valid = #{valid,jdbcType=TINYINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <select id="selectByExampleWithBLOBsWithRowbounds" parameterType="com.damaohongtu.orderquery.dao.entity.NodeExample" resultMap="ResultMapWithBLOBs">
+  <select id="selectByExampleWithBLOBsWithRowbounds" parameterType="com.damaohongtu.quickquery.dao.entity.NodeExample" resultMap="ResultMapWithBLOBs">
     select
     <if test="distinct">
       distinct
@@ -479,7 +479,7 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByExampleWithRowbounds" parameterType="com.damaohongtu.orderquery.dao.entity.NodeExample" resultMap="BaseResultMap">
+  <select id="selectByExampleWithRowbounds" parameterType="com.damaohongtu.quickquery.dao.entity.NodeExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
@@ -568,7 +568,7 @@
       )
     </foreach>
   </insert>
-  <insert id="upsertSelective" keyColumn="id" keyProperty="id" parameterType="com.damaohongtu.orderquery.dao.entity.Node" useGeneratedKeys="true">
+  <insert id="upsertSelective" keyColumn="id" keyProperty="id" parameterType="com.damaohongtu.quickquery.dao.entity.Node" useGeneratedKeys="true">
     insert into nodeDTO
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -723,7 +723,7 @@
       </if>
     </trim>
   </insert>
-  <insert id="upsert" keyColumn="id" keyProperty="id" parameterType="com.damaohongtu.orderquery.dao.entity.Node" useGeneratedKeys="true">
+  <insert id="upsert" keyColumn="id" keyProperty="id" parameterType="com.damaohongtu.quickquery.dao.entity.Node" useGeneratedKeys="true">
     insert into nodeDTO
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -785,7 +785,7 @@
       valid = #{valid,jdbcType=TINYINT},
     </trim>
   </insert>
-  <insert id="upsertWithBLOBs" keyColumn="id" keyProperty="id" parameterType="com.damaohongtu.orderquery.dao.entity.Node" useGeneratedKeys="true">
+  <insert id="upsertWithBLOBs" keyColumn="id" keyProperty="id" parameterType="com.damaohongtu.quickquery.dao.entity.Node" useGeneratedKeys="true">
     insert into nodeDTO
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
