@@ -46,7 +46,7 @@ public class GraphRepo {
      */
     public List<Graph> list(Integer page, Integer size){
         GraphExample example = new GraphExample();
-        example.createCriteria().andValidEqualTo(Constants.INVALID);
+        example.createCriteria().andValidEqualTo(Constants.VALID);
         example.setOrderByClause("id DESC");
         example.limit((page-1) * size, size);
         return graphMapper.selectByExample(example);
