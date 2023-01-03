@@ -221,7 +221,7 @@ public class DataBaseExecutor {
         return dataBaseNameList;
     }
 
-    public Map<String, List<String>> listAllDbName(){
+    public Map<String, List<String>> listDatabase(){
         Map<String, List<String>> res = new HashMap<>(8);
         List<String> mysql = new ArrayList<>();
         for(String key:externalDruidDataSourceMap.keySet()){

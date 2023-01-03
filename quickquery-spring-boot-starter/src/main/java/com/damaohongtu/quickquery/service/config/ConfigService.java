@@ -3,15 +3,20 @@ package com.damaohongtu.quickquery.service.config;
 import com.damaohongtu.quickquery.controller.response.PageInfo;
 import com.damaohongtu.quickquery.dao.entity.Graph;
 import com.damaohongtu.quickquery.dao.entity.Node;
+import com.damaohongtu.quickquery.dao.entity.Sharding;
 import com.damaohongtu.quickquery.dao.repo.GraphRepo;
 import com.damaohongtu.quickquery.dao.repo.NodeRepo;
+import com.damaohongtu.quickquery.dao.repo.ShardingRepo;
 import com.damaohongtu.quickquery.dto.config.QuickQueryConfigDto;
 import com.damaohongtu.quickquery.dto.graph.GraphDto;
+import com.damaohongtu.quickquery.dto.sharding.ShardingDto;
+import com.damaohongtu.quickquery.executor.DataBaseExecutor;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -29,7 +34,13 @@ public class ConfigService {
     @Resource
     private NodeRepo nodeRepo;
 
-    public String config(QuickQueryConfigDto QuickQueryConfigDto){
+    @Resource
+    private ShardingRepo shardingRepo;
+
+    @Resource
+    private DataBaseExecutor dataBaseExecutor;
+
+    public String configGraph(QuickQueryConfigDto QuickQueryConfigDto){
 
         Graph graph = new Graph();
         graph.setGraphCode(QuickQueryConfigDto.getBizCode());
@@ -55,7 +66,7 @@ public class ConfigService {
         return "SUCCESS";
     }
 
-    public QuickQueryConfigDto query(String graphCode){
+    public QuickQueryConfigDto queryGraph(String graphCode){
         Graph graph = graphRepo.selectByCode(graphCode);
         List<Node> nodeList = nodeRepo.selectByGraph(graphCode);
 
@@ -88,7 +99,7 @@ public class ConfigService {
         return quickQueryConfigDto;
     }
 
-    public PageInfo<GraphDto> list(Integer page, Integer size){
+    public PageInfo<GraphDto> listGraph(Integer page, Integer size){
         Long total = graphRepo.count();
         List<Graph> graphList = graphRepo.list(page, size);
         List<GraphDto> graphDtoList = graphList.stream().map(graph -> {
@@ -102,4 +113,48 @@ public class ConfigService {
         return res;
     }
 
+    public PageInfo<ShardingDto> listSharding(Integer page, Integer size){
+        Long total = shardingRepo.count();
+        List<Sharding> shardingList = shardingRepo.list(page, size);
+        List<ShardingDto> shardingDtoList = shardingList.stream().map(item->{
+            return ShardingDto.fromPo(item);
+        }).collect(Collectors.toList());
+        PageInfo<ShardingDto> pageInfo = PageInfo.<ShardingDto>builder()
+                .total(total)
+                .data(shardingDtoList)
+                .build();
+        return pageInfo;
+    }
+
+    public PageInfo<ShardingDto> listSharding(){
+        Long total = shardingRepo.count();
+        List<Sharding> shardingList = shardingRepo.list(1, Math.toIntExact(total));
+        List<ShardingDto> shardingDtoList = shardingList.stream().map(item->{
+            return ShardingDto.fromPo(item);
+        }).collect(Collectors.toList());
+        PageInfo<ShardingDto> pageInfo = PageInfo.<ShardingDto>builder()
+                .total(total)
+                .data(shardingDtoList)
+                .build();
+        return pageInfo;
+    }
+
+    public String configSharding(ShardingDto shardingDto){
+        Sharding sharding = shardingDto.toPo();
+        shardingRepo.insert(sharding);
+        return "SUCCESS";
+    }
+
+    public ShardingDto querySharding(String code){
+        Sharding sharding = shardingRepo.selectByCode(code);
+        return ShardingDto.fromPo(sharding);
+    }
+
+    public Map<String, List<String>> listDatabase(){
+        return dataBaseExecutor.listDatabase();
+    }
+
+    public List queryTableInfo(String dataSourceType, String dataSourceName, String table){
+        return dataBaseExecutor.getTableInfo(dataSourceType, dataSourceName, table);
+    }
 }

@@ -13,13 +13,13 @@ import javax.annotation.Resource;
 
 
 @RestController
-@RequestMapping("/api/orderquery/instance")
+@RequestMapping("/api/quickquery/")
 public class QueryController {
 
     @Resource
     private QuickQueryClient quickQueryClient;
 
-    @GetMapping("/query")
+    @GetMapping("/")
     public String query(@RequestParam(name = "bizCode") String bizCode, @RequestParam(name = "serialNo") String serialNo) {
         QuickQueryRequest request = new QuickQueryRequest();
         request.setBizCode(bizCode);
