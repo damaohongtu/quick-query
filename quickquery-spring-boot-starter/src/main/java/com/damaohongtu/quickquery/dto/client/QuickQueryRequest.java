@@ -13,7 +13,7 @@ public class QuickQueryRequest {
     /**
      * 业务线编号：对应关联图的graphCode，业务方不感知OrderQuery关联图
      */
-    private String bizCode;
+    private Long bizCode;
 
     /**
      * 待查询流水号

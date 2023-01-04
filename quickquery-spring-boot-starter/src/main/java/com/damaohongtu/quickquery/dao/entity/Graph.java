@@ -8,8 +8,6 @@ import java.util.Date;
 public class Graph implements Serializable {
     private Long id;
 
-    private String graphCode;
-
     private String graphName;
 
     private Date createTime;
@@ -24,6 +22,8 @@ public class Graph implements Serializable {
 
     private Byte valid;
 
+    private String graphDesc;
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -32,14 +32,6 @@ public class Graph implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getGraphCode() {
-        return graphCode;
-    }
-
-    public void setGraphCode(String graphCode) {
-        this.graphCode = graphCode == null ? null : graphCode.trim();
     }
 
     public String getGraphName() {
@@ -98,6 +90,14 @@ public class Graph implements Serializable {
         this.valid = valid;
     }
 
+    public String getGraphDesc() {
+        return graphDesc;
+    }
+
+    public void setGraphDesc(String graphDesc) {
+        this.graphDesc = graphDesc == null ? null : graphDesc.trim();
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -111,14 +111,14 @@ public class Graph implements Serializable {
         }
         Graph other = (Graph) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getGraphCode() == null ? other.getGraphCode() == null : this.getGraphCode().equals(other.getGraphCode()))
             && (this.getGraphName() == null ? other.getGraphName() == null : this.getGraphName().equals(other.getGraphName()))
             && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
             && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
             && (this.getCreateBy() == null ? other.getCreateBy() == null : this.getCreateBy().equals(other.getCreateBy()))
             && (this.getUpdateBy() == null ? other.getUpdateBy() == null : this.getUpdateBy().equals(other.getUpdateBy()))
             && (this.getEdges() == null ? other.getEdges() == null : this.getEdges().equals(other.getEdges()))
-            && (this.getValid() == null ? other.getValid() == null : this.getValid().equals(other.getValid()));
+            && (this.getValid() == null ? other.getValid() == null : this.getValid().equals(other.getValid()))
+            && (this.getGraphDesc() == null ? other.getGraphDesc() == null : this.getGraphDesc().equals(other.getGraphDesc()));
     }
 
     @Override
@@ -126,7 +126,6 @@ public class Graph implements Serializable {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-        result = prime * result + ((getGraphCode() == null) ? 0 : getGraphCode().hashCode());
         result = prime * result + ((getGraphName() == null) ? 0 : getGraphName().hashCode());
         result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
         result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
@@ -134,6 +133,7 @@ public class Graph implements Serializable {
         result = prime * result + ((getUpdateBy() == null) ? 0 : getUpdateBy().hashCode());
         result = prime * result + ((getEdges() == null) ? 0 : getEdges().hashCode());
         result = prime * result + ((getValid() == null) ? 0 : getValid().hashCode());
+        result = prime * result + ((getGraphDesc() == null) ? 0 : getGraphDesc().hashCode());
         return result;
     }
 
@@ -144,7 +144,6 @@ public class Graph implements Serializable {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
-        sb.append(", graphCode=").append(graphCode);
         sb.append(", graphName=").append(graphName);
         sb.append(", createTime=").append(createTime);
         sb.append(", updateTime=").append(updateTime);
@@ -152,6 +151,7 @@ public class Graph implements Serializable {
         sb.append(", updateBy=").append(updateBy);
         sb.append(", edges=").append(edges);
         sb.append(", valid=").append(valid);
+        sb.append(", graphDesc=").append(graphDesc);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
@@ -159,14 +159,14 @@ public class Graph implements Serializable {
 
     public enum Column {
         id("id", "id", "BIGINT", false),
-        graphCode("graph_code", "graphCode", "VARCHAR", false),
         graphName("graph_name", "graphName", "VARCHAR", false),
         createTime("create_time", "createTime", "TIMESTAMP", false),
         updateTime("update_time", "updateTime", "TIMESTAMP", false),
         createBy("create_by", "createBy", "VARCHAR", false),
         updateBy("update_by", "updateBy", "VARCHAR", false),
         edges("edges", "edges", "VARCHAR", false),
-        valid("valid", "valid", "TINYINT", false);
+        valid("valid", "valid", "TINYINT", false),
+        graphDesc("graph_desc", "graphDesc", "LONGVARCHAR", false);
 
         private static final String BEGINNING_DELIMITER = "\"";
 

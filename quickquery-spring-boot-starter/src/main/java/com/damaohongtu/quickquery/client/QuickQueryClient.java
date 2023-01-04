@@ -43,14 +43,14 @@ public class QuickQueryClient {
 
     public QuickQueryResponse query(QuickQueryRequest request){
 
-        String graphCode = request.getBizCode();
-        Graph graph = graphRepo.selectByCode(graphCode);
-        List<Node> nodes = nodeRepo.selectByGraph(graphCode);
+        Long bizCode = request.getBizCode();
+        Graph graph = graphRepo.selectById(bizCode);
+        List<Node> nodes = nodeRepo.selectByGraph(bizCode);
         String serialNo = request.getSerialNo();
 
         // 上下文
         QuickQueryContext context = QuickQueryContext.builder()
-                .graphCode(graph.getGraphCode())
+                .graphId(graph.getId())
                 .graphName(graph.getGraphName())
                 .graph(this.parseGraph(nodes))
                 .serialNo(serialNo)

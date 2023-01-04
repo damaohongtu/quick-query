@@ -3,7 +3,6 @@
 <mapper namespace="com.damaohongtu.quickquery.dao.mapper.GraphMapper">
   <resultMap id="BaseResultMap" type="com.damaohongtu.quickquery.dao.entity.Graph">
     <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="graph_code" jdbcType="VARCHAR" property="graphCode" />
     <result column="graph_name" jdbcType="VARCHAR" property="graphName" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
@@ -11,6 +10,9 @@
     <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
     <result column="edges" jdbcType="VARCHAR" property="edges" />
     <result column="valid" jdbcType="TINYINT" property="valid" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.damaohongtu.quickquery.dao.entity.Graph">
+    <result column="graph_desc" jdbcType="LONGVARCHAR" property="graphDesc" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -71,9 +73,36 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, graph_code, graph_name, create_time, update_time, create_by, update_by, edges, 
-    valid
+    id, graph_name, create_time, update_time, create_by, update_by, edges, valid
   </sql>
+  <sql id="Blob_Column_List">
+    graph_desc
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.damaohongtu.quickquery.dao.entity.GraphExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from graph
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="rows != null">
+      <if test="offset != null">
+        limit ${offset}, ${rows}
+      </if>
+      <if test="offset == null">
+        limit ${rows}
+      </if>
+    </if>
+  </select>
   <select id="selectByExample" parameterType="com.damaohongtu.quickquery.dao.entity.GraphExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
@@ -97,9 +126,11 @@
       </if>
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
     select 
     <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
     from graph
     where id = #{id,jdbcType=BIGINT}
   </select>
@@ -117,12 +148,12 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into graph (graph_code, graph_name, create_time, 
-      update_time, create_by, update_by, 
-      edges, valid)
-    values (#{graphCode,jdbcType=VARCHAR}, #{graphName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, #{updateBy,jdbcType=VARCHAR}, 
-      #{edges,jdbcType=VARCHAR}, #{valid,jdbcType=TINYINT})
+    insert into graph (graph_name, create_time, update_time, 
+      create_by, update_by, edges, 
+      valid, graph_desc)
+    values (#{graphName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{createBy,jdbcType=VARCHAR}, #{updateBy,jdbcType=VARCHAR}, #{edges,jdbcType=VARCHAR}, 
+      #{valid,jdbcType=TINYINT}, #{graphDesc,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.damaohongtu.quickquery.dao.entity.Graph">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -130,9 +161,6 @@
     </selectKey>
     insert into graph
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="graphCode != null">
-        graph_code,
-      </if>
       <if test="graphName != null">
         graph_name,
       </if>
@@ -154,11 +182,11 @@
       <if test="valid != null">
         valid,
       </if>
+      <if test="graphDesc != null">
+        graph_desc,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="graphCode != null">
-        #{graphCode,jdbcType=VARCHAR},
-      </if>
       <if test="graphName != null">
         #{graphName,jdbcType=VARCHAR},
       </if>
@@ -180,6 +208,9 @@
       <if test="valid != null">
         #{valid,jdbcType=TINYINT},
       </if>
+      <if test="graphDesc != null">
+        #{graphDesc,jdbcType=LONGVARCHAR},
+      </if>
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.damaohongtu.quickquery.dao.entity.GraphExample" resultType="java.lang.Long">
@@ -193,9 +224,6 @@
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=BIGINT},
-      </if>
-      <if test="record.graphCode != null">
-        graph_code = #{record.graphCode,jdbcType=VARCHAR},
       </if>
       <if test="record.graphName != null">
         graph_name = #{record.graphName,jdbcType=VARCHAR},
@@ -218,7 +246,25 @@
       <if test="record.valid != null">
         valid = #{record.valid,jdbcType=TINYINT},
       </if>
+      <if test="record.graphDesc != null">
+        graph_desc = #{record.graphDesc,jdbcType=LONGVARCHAR},
+      </if>
     </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update graph
+    set id = #{record.id,jdbcType=BIGINT},
+      graph_name = #{record.graphName,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      create_by = #{record.createBy,jdbcType=VARCHAR},
+      update_by = #{record.updateBy,jdbcType=VARCHAR},
+      edges = #{record.edges,jdbcType=VARCHAR},
+      valid = #{record.valid,jdbcType=TINYINT},
+      graph_desc = #{record.graphDesc,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -226,7 +272,6 @@
   <update id="updateByExample" parameterType="map">
     update graph
     set id = #{record.id,jdbcType=BIGINT},
-      graph_code = #{record.graphCode,jdbcType=VARCHAR},
       graph_name = #{record.graphName,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
@@ -241,9 +286,6 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.damaohongtu.quickquery.dao.entity.Graph">
     update graph
     <set>
-      <if test="graphCode != null">
-        graph_code = #{graphCode,jdbcType=VARCHAR},
-      </if>
       <if test="graphName != null">
         graph_name = #{graphName,jdbcType=VARCHAR},
       </if>
@@ -265,13 +307,27 @@
       <if test="valid != null">
         valid = #{valid,jdbcType=TINYINT},
       </if>
+      <if test="graphDesc != null">
+        graph_desc = #{graphDesc,jdbcType=LONGVARCHAR},
+      </if>
     </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.damaohongtu.quickquery.dao.entity.Graph">
+    update graph
+    set graph_name = #{graphName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      update_by = #{updateBy,jdbcType=VARCHAR},
+      edges = #{edges,jdbcType=VARCHAR},
+      valid = #{valid,jdbcType=TINYINT},
+      graph_desc = #{graphDesc,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.damaohongtu.quickquery.dao.entity.Graph">
     update graph
-    set graph_code = #{graphCode,jdbcType=VARCHAR},
-      graph_name = #{graphName,jdbcType=VARCHAR},
+    set graph_name = #{graphName,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       create_by = #{createBy,jdbcType=VARCHAR},
@@ -295,15 +351,47 @@
       order by ${orderByClause}
     </if>
   </select>
+  <select id="selectByExampleWithBLOBsWithRowbounds" parameterType="com.damaohongtu.quickquery.dao.entity.GraphExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from graph
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExampleWithRowbounds" parameterType="com.damaohongtu.quickquery.dao.entity.GraphExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from graph
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
   <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
     insert into graph
-    (graph_code, graph_name, create_time, update_time, create_by, update_by, edges, valid
+    (graph_name, create_time, update_time, create_by, update_by, edges, valid, graph_desc
       )
     values
     <foreach collection="list" item="item" separator=",">
-      (#{item.graphCode,jdbcType=VARCHAR}, #{item.graphName,jdbcType=VARCHAR}, #{item.createTime,jdbcType=TIMESTAMP}, 
-        #{item.updateTime,jdbcType=TIMESTAMP}, #{item.createBy,jdbcType=VARCHAR}, #{item.updateBy,jdbcType=VARCHAR}, 
-        #{item.edges,jdbcType=VARCHAR}, #{item.valid,jdbcType=TINYINT})
+      (#{item.graphName,jdbcType=VARCHAR}, #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateTime,jdbcType=TIMESTAMP}, 
+        #{item.createBy,jdbcType=VARCHAR}, #{item.updateBy,jdbcType=VARCHAR}, #{item.edges,jdbcType=VARCHAR}, 
+        #{item.valid,jdbcType=TINYINT}, #{item.graphDesc,jdbcType=LONGVARCHAR})
     </foreach>
   </insert>
   <insert id="batchInsertSelective" keyColumn="id" keyProperty="list.id" parameterType="map" useGeneratedKeys="true">
@@ -316,9 +404,6 @@
     <foreach collection="list" item="item" separator=",">
       (
       <foreach collection="selective" item="column" separator=",">
-        <if test="'graph_code'.toString() == column.value">
-          #{item.graphCode,jdbcType=VARCHAR}
-        </if>
         <if test="'graph_name'.toString() == column.value">
           #{item.graphName,jdbcType=VARCHAR}
         </if>
@@ -340,6 +425,9 @@
         <if test="'valid'.toString() == column.value">
           #{item.valid,jdbcType=TINYINT}
         </if>
+        <if test="'graph_desc'.toString() == column.value">
+          #{item.graphDesc,jdbcType=LONGVARCHAR}
+        </if>
       </foreach>
       )
     </foreach>
@@ -349,9 +437,6 @@
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
-      </if>
-      <if test="graphCode != null">
-        graph_code,
       </if>
       <if test="graphName != null">
         graph_name,
@@ -374,14 +459,14 @@
       <if test="valid != null">
         valid,
       </if>
+      <if test="graphDesc != null">
+        graph_desc,
+      </if>
     </trim>
     values
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         #{id,jdbcType=BIGINT},
-      </if>
-      <if test="graphCode != null">
-        #{graphCode,jdbcType=VARCHAR},
       </if>
       <if test="graphName != null">
         #{graphName,jdbcType=VARCHAR},
@@ -404,14 +489,14 @@
       <if test="valid != null">
         #{valid,jdbcType=TINYINT},
       </if>
+      <if test="graphDesc != null">
+        #{graphDesc,jdbcType=LONGVARCHAR},
+      </if>
     </trim>
     on duplicate key update 
     <trim suffixOverrides=",">
       <if test="id != null">
         id = #{id,jdbcType=BIGINT},
-      </if>
-      <if test="graphCode != null">
-        graph_code = #{graphCode,jdbcType=VARCHAR},
       </if>
       <if test="graphName != null">
         graph_name = #{graphName,jdbcType=VARCHAR},
@@ -434,6 +519,9 @@
       <if test="valid != null">
         valid = #{valid,jdbcType=TINYINT},
       </if>
+      <if test="graphDesc != null">
+        graph_desc = #{graphDesc,jdbcType=LONGVARCHAR},
+      </if>
     </trim>
   </insert>
   <insert id="upsert" keyColumn="id" keyProperty="id" parameterType="com.damaohongtu.quickquery.dao.entity.Graph" useGeneratedKeys="true">
@@ -442,7 +530,6 @@
       <if test="id != null">
         id,
       </if>
-      graph_code,
       graph_name,
       create_time,
       update_time,
@@ -456,7 +543,6 @@
       <if test="id != null">
         #{id,jdbcType=BIGINT},
       </if>
-      #{graphCode,jdbcType=VARCHAR},
       #{graphName,jdbcType=VARCHAR},
       #{createTime,jdbcType=TIMESTAMP},
       #{updateTime,jdbcType=TIMESTAMP},
@@ -470,7 +556,6 @@
       <if test="id != null">
         id = #{id,jdbcType=BIGINT},
       </if>
-      graph_code = #{graphCode,jdbcType=VARCHAR},
       graph_name = #{graphName,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
@@ -478,6 +563,50 @@
       update_by = #{updateBy,jdbcType=VARCHAR},
       edges = #{edges,jdbcType=VARCHAR},
       valid = #{valid,jdbcType=TINYINT},
+    </trim>
+  </insert>
+  <insert id="upsertWithBLOBs" keyColumn="id" keyProperty="id" parameterType="com.damaohongtu.quickquery.dao.entity.Graph" useGeneratedKeys="true">
+    insert into graph
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      graph_name,
+      create_time,
+      update_time,
+      create_by,
+      update_by,
+      edges,
+      valid,
+      graph_desc,
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      #{graphName,jdbcType=VARCHAR},
+      #{createTime,jdbcType=TIMESTAMP},
+      #{updateTime,jdbcType=TIMESTAMP},
+      #{createBy,jdbcType=VARCHAR},
+      #{updateBy,jdbcType=VARCHAR},
+      #{edges,jdbcType=VARCHAR},
+      #{valid,jdbcType=TINYINT},
+      #{graphDesc,jdbcType=LONGVARCHAR},
+    </trim>
+    on duplicate key update 
+    <trim suffixOverrides=",">
+      <if test="id != null">
+        id = #{id,jdbcType=BIGINT},
+      </if>
+      graph_name = #{graphName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      update_by = #{updateBy,jdbcType=VARCHAR},
+      edges = #{edges,jdbcType=VARCHAR},
+      valid = #{valid,jdbcType=TINYINT},
+      graph_desc = #{graphDesc,jdbcType=LONGVARCHAR},
     </trim>
   </insert>
   <insert id="batchUpsertSelective" parameterType="map">
@@ -492,9 +621,6 @@
       <foreach collection="selective" item="column" separator=",">
         <if test="'id'.toString() == column.value">
           #{item.id,jdbcType=BIGINT}
-        </if>
-        <if test="'graph_code'.toString() == column.value">
-          #{item.graphCode,jdbcType=VARCHAR}
         </if>
         <if test="'graph_name'.toString() == column.value">
           #{item.graphName,jdbcType=VARCHAR}
@@ -517,6 +643,9 @@
         <if test="'valid'.toString() == column.value">
           #{item.valid,jdbcType=TINYINT}
         </if>
+        <if test="'graph_desc'.toString() == column.value">
+          #{item.graphDesc,jdbcType=LONGVARCHAR}
+        </if>
       </foreach>
       )
     </foreach>
@@ -527,18 +656,15 @@
   </insert>
   <insert id="batchUpsert" parameterType="map">
     insert into graph
-    (id, graph_code, graph_name, create_time, update_time, create_by, update_by, edges, 
-      valid)
+    (id, graph_name, create_time, update_time, create_by, update_by, edges, valid)
     values
     <foreach collection="list" item="item" separator=",">
-      (#{item.id,jdbcType=BIGINT}, #{item.graphCode,jdbcType=VARCHAR}, #{item.graphName,jdbcType=VARCHAR}, 
-        #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateTime,jdbcType=TIMESTAMP}, #{item.createBy,jdbcType=VARCHAR}, 
-        #{item.updateBy,jdbcType=VARCHAR}, #{item.edges,jdbcType=VARCHAR}, #{item.valid,jdbcType=TINYINT}
-        )
+      (#{item.id,jdbcType=BIGINT}, #{item.graphName,jdbcType=VARCHAR}, #{item.createTime,jdbcType=TIMESTAMP}, 
+        #{item.updateTime,jdbcType=TIMESTAMP}, #{item.createBy,jdbcType=VARCHAR}, #{item.updateBy,jdbcType=VARCHAR}, 
+        #{item.edges,jdbcType=VARCHAR}, #{item.valid,jdbcType=TINYINT})
     </foreach>
     on duplicate key update 
     id = values(id),
-    graph_code = values(graph_code),
     graph_name = values(graph_name),
     create_time = values(create_time),
     update_time = values(update_time),
@@ -546,5 +672,27 @@
     update_by = values(update_by),
     edges = values(edges),
     valid = values(valid)
+  </insert>
+  <insert id="batchUpsertWithBLOBs" parameterType="map">
+    insert into graph
+    (id, graph_name, create_time, update_time, create_by, update_by, edges, valid, graph_desc
+      )
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.id,jdbcType=BIGINT}, #{item.graphName,jdbcType=VARCHAR}, #{item.createTime,jdbcType=TIMESTAMP}, 
+        #{item.updateTime,jdbcType=TIMESTAMP}, #{item.createBy,jdbcType=VARCHAR}, #{item.updateBy,jdbcType=VARCHAR}, 
+        #{item.edges,jdbcType=VARCHAR}, #{item.valid,jdbcType=TINYINT}, #{item.graphDesc,jdbcType=LONGVARCHAR}
+        )
+    </foreach>
+    on duplicate key update 
+    id = values(id),
+    graph_name = values(graph_name),
+    create_time = values(create_time),
+    update_time = values(update_time),
+    create_by = values(create_by),
+    update_by = values(update_by),
+    edges = values(edges),
+    valid = values(valid),
+    graph_desc = values(graph_desc)
   </insert>
 </mapper>

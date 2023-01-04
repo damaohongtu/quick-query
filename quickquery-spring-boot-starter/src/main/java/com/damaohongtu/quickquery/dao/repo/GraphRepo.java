@@ -21,10 +21,10 @@ public class GraphRepo {
     }
 
 
-    public Graph selectByCode(String graphCode){
+    public Graph selectById(Long graphId){
 
         GraphExample example = new GraphExample();
-        example.createCriteria().andGraphCodeEqualTo(graphCode);
+        example.createCriteria().andIdEqualTo(graphId);
         return graphMapper.selectByExample(example).stream().findFirst().orElse(null);
     }
 

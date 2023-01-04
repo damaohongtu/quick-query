@@ -19,7 +19,7 @@ import java.util.List;
 @NoArgsConstructor
 public class QuickQueryConfigDto {
 
-    private String bizCode;
+    private Long bizCode;
 
     private String bizName;
 

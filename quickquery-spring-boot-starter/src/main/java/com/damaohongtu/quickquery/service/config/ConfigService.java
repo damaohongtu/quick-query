@@ -43,7 +43,6 @@ public class ConfigService {
     public String configGraph(QuickQueryConfigDto QuickQueryConfigDto){
 
         Graph graph = new Graph();
-        graph.setGraphCode(QuickQueryConfigDto.getBizCode());
         graph.setGraphName(QuickQueryConfigDto.getBizName());
         graph.setEdges(QuickQueryConfigDto.getEdges());
         graphRepo.insert(graph);
@@ -51,7 +50,7 @@ public class ConfigService {
         for(QuickQueryConfigDto.Node node : QuickQueryConfigDto.getNodes()){
             Node nodePo = new Node();
             nodePo.setNodeCode(node.getId());
-            nodePo.setGraphCode(QuickQueryConfigDto.getBizCode());
+            nodePo.setGraphId(graph.getId());
             nodePo.setNodeName(node.getNodeName());
             nodePo.setNodeType(node.getNodeType());
             nodePo.setDataSource(node.getConfigInfo().getDataSource());
@@ -66,9 +65,9 @@ public class ConfigService {
         return "SUCCESS";
     }
 
-    public QuickQueryConfigDto queryGraph(String graphCode){
-        Graph graph = graphRepo.selectByCode(graphCode);
-        List<Node> nodeList = nodeRepo.selectByGraph(graphCode);
+    public QuickQueryConfigDto queryGraph(Long graphId){
+        Graph graph = graphRepo.selectById(graphId);
+        List<Node> nodeList = nodeRepo.selectByGraph(graphId);
 
         List<QuickQueryConfigDto.Node> nodes = new ArrayList<>();
         nodeList.forEach(item -> {
@@ -89,9 +88,9 @@ public class ConfigService {
         });
 
         QuickQueryConfigDto quickQueryConfigDto = QuickQueryConfigDto.builder()
-                .bizCode(graph.getGraphCode())
+                .bizCode(graph.getId())
                 .bizName(graph.getGraphName())
-                .bizDesc("")
+                .bizDesc(graph.getGraphDesc())
                 .nodes(nodes)
                 .edges(graph.getEdges())
                 .build();

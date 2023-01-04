@@ -1,6 +1,5 @@
 package com.damaohongtu.quickquery.dao.repo;
 
-import com.damaohongtu.quickquery.dao.entity.GraphExample;
 import com.damaohongtu.quickquery.dao.entity.Sharding;
 import com.damaohongtu.quickquery.dao.entity.ShardingExample;
 import com.damaohongtu.quickquery.dao.mapper.ShardingMapper;

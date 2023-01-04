@@ -18,9 +18,9 @@ public class NodeRepo {
         return nodeMapper.insert(node);
     }
 
-    public List<Node> selectByGraph(String graphCode){
+    public List<Node> selectByGraph(Long graphId){
         NodeExample example = new NodeExample();
-        example.createCriteria().andGraphCodeEqualTo(graphCode);
+        example.createCriteria().andGraphIdEqualTo(graphId);
         return nodeMapper.selectByExample(example);
     }
 

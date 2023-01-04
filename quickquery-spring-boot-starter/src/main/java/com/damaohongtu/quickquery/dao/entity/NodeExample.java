@@ -274,73 +274,63 @@ public class NodeExample {
             return (Criteria) this;
         }
 
-        public Criteria andGraphCodeIsNull() {
-            addCriterion("graph_code is null");
+        public Criteria andGraphIdIsNull() {
+            addCriterion("graph_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andGraphCodeIsNotNull() {
-            addCriterion("graph_code is not null");
+        public Criteria andGraphIdIsNotNull() {
+            addCriterion("graph_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andGraphCodeEqualTo(String value) {
-            addCriterion("graph_code =", value, "graphCode");
+        public Criteria andGraphIdEqualTo(Long value) {
+            addCriterion("graph_id =", value, "graphId");
             return (Criteria) this;
         }
 
-        public Criteria andGraphCodeNotEqualTo(String value) {
-            addCriterion("graph_code <>", value, "graphCode");
+        public Criteria andGraphIdNotEqualTo(Long value) {
+            addCriterion("graph_id <>", value, "graphId");
             return (Criteria) this;
         }
 
-        public Criteria andGraphCodeGreaterThan(String value) {
-            addCriterion("graph_code >", value, "graphCode");
+        public Criteria andGraphIdGreaterThan(Long value) {
+            addCriterion("graph_id >", value, "graphId");
             return (Criteria) this;
         }
 
-        public Criteria andGraphCodeGreaterThanOrEqualTo(String value) {
-            addCriterion("graph_code >=", value, "graphCode");
+        public Criteria andGraphIdGreaterThanOrEqualTo(Long value) {
+            addCriterion("graph_id >=", value, "graphId");
             return (Criteria) this;
         }
 
-        public Criteria andGraphCodeLessThan(String value) {
-            addCriterion("graph_code <", value, "graphCode");
+        public Criteria andGraphIdLessThan(Long value) {
+            addCriterion("graph_id <", value, "graphId");
             return (Criteria) this;
         }
 
-        public Criteria andGraphCodeLessThanOrEqualTo(String value) {
-            addCriterion("graph_code <=", value, "graphCode");
+        public Criteria andGraphIdLessThanOrEqualTo(Long value) {
+            addCriterion("graph_id <=", value, "graphId");
             return (Criteria) this;
         }
 
-        public Criteria andGraphCodeLike(String value) {
-            addCriterion("graph_code like", value, "graphCode");
+        public Criteria andGraphIdIn(List<Long> values) {
+            addCriterion("graph_id in", values, "graphId");
             return (Criteria) this;
         }
 
-        public Criteria andGraphCodeNotLike(String value) {
-            addCriterion("graph_code not like", value, "graphCode");
+        public Criteria andGraphIdNotIn(List<Long> values) {
+            addCriterion("graph_id not in", values, "graphId");
             return (Criteria) this;
         }
 
-        public Criteria andGraphCodeIn(List<String> values) {
-            addCriterion("graph_code in", values, "graphCode");
+        public Criteria andGraphIdBetween(Long value1, Long value2) {
+            addCriterion("graph_id between", value1, value2, "graphId");
             return (Criteria) this;
         }
 
-        public Criteria andGraphCodeNotIn(List<String> values) {
-            addCriterion("graph_code not in", values, "graphCode");
-            return (Criteria) this;
-        }
-
-        public Criteria andGraphCodeBetween(String value1, String value2) {
-            addCriterion("graph_code between", value1, value2, "graphCode");
-            return (Criteria) this;
-        }
-
-        public Criteria andGraphCodeNotBetween(String value1, String value2) {
-            addCriterion("graph_code not between", value1, value2, "graphCode");
+        public Criteria andGraphIdNotBetween(Long value1, Long value2) {
+            addCriterion("graph_id not between", value1, value2, "graphId");
             return (Criteria) this;
         }
 

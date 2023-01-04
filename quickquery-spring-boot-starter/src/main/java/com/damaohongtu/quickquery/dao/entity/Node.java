@@ -10,7 +10,7 @@ public class Node implements Serializable {
 
     private String nodeCode;
 
-    private String graphCode;
+    private Long graphId;
 
     private String nodeName;
 
@@ -56,12 +56,12 @@ public class Node implements Serializable {
         this.nodeCode = nodeCode == null ? null : nodeCode.trim();
     }
 
-    public String getGraphCode() {
-        return graphCode;
+    public Long getGraphId() {
+        return graphId;
     }
 
-    public void setGraphCode(String graphCode) {
-        this.graphCode = graphCode == null ? null : graphCode.trim();
+    public void setGraphId(Long graphId) {
+        this.graphId = graphId;
     }
 
     public String getNodeName() {
@@ -182,7 +182,7 @@ public class Node implements Serializable {
         Node other = (Node) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
             && (this.getNodeCode() == null ? other.getNodeCode() == null : this.getNodeCode().equals(other.getNodeCode()))
-            && (this.getGraphCode() == null ? other.getGraphCode() == null : this.getGraphCode().equals(other.getGraphCode()))
+            && (this.getGraphId() == null ? other.getGraphId() == null : this.getGraphId().equals(other.getGraphId()))
             && (this.getNodeName() == null ? other.getNodeName() == null : this.getNodeName().equals(other.getNodeName()))
             && (this.getNodeType() == null ? other.getNodeType() == null : this.getNodeType().equals(other.getNodeType()))
             && (this.getDataSource() == null ? other.getDataSource() == null : this.getDataSource().equals(other.getDataSource()))
@@ -204,7 +204,7 @@ public class Node implements Serializable {
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
         result = prime * result + ((getNodeCode() == null) ? 0 : getNodeCode().hashCode());
-        result = prime * result + ((getGraphCode() == null) ? 0 : getGraphCode().hashCode());
+        result = prime * result + ((getGraphId() == null) ? 0 : getGraphId().hashCode());
         result = prime * result + ((getNodeName() == null) ? 0 : getNodeName().hashCode());
         result = prime * result + ((getNodeType() == null) ? 0 : getNodeType().hashCode());
         result = prime * result + ((getDataSource() == null) ? 0 : getDataSource().hashCode());
@@ -229,7 +229,7 @@ public class Node implements Serializable {
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
         sb.append(", nodeCode=").append(nodeCode);
-        sb.append(", graphCode=").append(graphCode);
+        sb.append(", graphId=").append(graphId);
         sb.append(", nodeName=").append(nodeName);
         sb.append(", nodeType=").append(nodeType);
         sb.append(", dataSource=").append(dataSource);
@@ -251,7 +251,7 @@ public class Node implements Serializable {
     public enum Column {
         id("id", "id", "BIGINT", false),
         nodeCode("node_code", "nodeCode", "VARCHAR", false),
-        graphCode("graph_code", "graphCode", "VARCHAR", false),
+        graphId("graph_id", "graphId", "BIGINT", false),
         nodeName("node_name", "nodeName", "VARCHAR", false),
         nodeType("node_type", "nodeType", "VARCHAR", false),
         dataSource("data_source", "dataSource", "VARCHAR", false),

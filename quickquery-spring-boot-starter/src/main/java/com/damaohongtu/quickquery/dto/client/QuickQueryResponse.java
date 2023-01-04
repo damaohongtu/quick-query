@@ -16,7 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 public class QuickQueryResponse {
 
-    private String bizCode;
+    private Long bizCode;
 
     private String bizName;
 

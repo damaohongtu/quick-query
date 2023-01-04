@@ -17,6 +17,10 @@ public interface GraphMapper {
 
     int insertSelective(Graph record);
 
+    List<Graph> selectByExampleWithBLOBsWithRowbounds(GraphExample example, RowBounds rowBounds);
+
+    List<Graph> selectByExampleWithBLOBs(GraphExample example);
+
     List<Graph> selectByExampleWithRowbounds(GraphExample example, RowBounds rowBounds);
 
     List<Graph> selectByExample(GraphExample example);
@@ -25,9 +29,13 @@ public interface GraphMapper {
 
     int updateByExampleSelective(@Param("record") Graph record, @Param("example") GraphExample example);
 
+    int updateByExampleWithBLOBs(@Param("record") Graph record, @Param("example") GraphExample example);
+
     int updateByExample(@Param("record") Graph record, @Param("example") GraphExample example);
 
     int updateByPrimaryKeySelective(Graph record);
+
+    int updateByPrimaryKeyWithBLOBs(Graph record);
 
     int updateByPrimaryKey(Graph record);
 
@@ -39,7 +47,11 @@ public interface GraphMapper {
 
     int upsertSelective(Graph record);
 
+    int upsertWithBLOBs(Graph record);
+
     int batchUpsert(@Param("list") List<Graph> list);
 
     int batchUpsertSelective(@Param("list") List<Graph> list, @Param("selective") Graph.Column ... selective);
+
+    int batchUpsertWithBLOBs(@Param("list") List<Graph> list);
 }

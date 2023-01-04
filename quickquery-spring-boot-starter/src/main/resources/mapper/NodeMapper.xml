@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="com.damaohongtu.quickquery.dao.entity.Node">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="node_code" jdbcType="VARCHAR" property="nodeCode" />
-    <result column="graph_code" jdbcType="VARCHAR" property="graphCode" />
+    <result column="graph_id" jdbcType="BIGINT" property="graphId" />
     <result column="node_name" jdbcType="VARCHAR" property="nodeName" />
     <result column="node_type" jdbcType="VARCHAR" property="nodeType" />
     <result column="data_source" jdbcType="VARCHAR" property="dataSource" />
@@ -80,7 +80,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, node_code, graph_code, node_name, node_type, data_source, input_field, route_rule, 
+    id, node_code, graph_id, node_name, node_type, data_source, input_field, route_rule, 
     neighbor_node, coordinate, create_time, update_time, create_by, update_by, valid
   </sql>
   <sql id="Blob_Column_List">
@@ -95,7 +95,7 @@
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
-    from nodeDTO
+    from node
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -118,7 +118,7 @@
     </if>
     'true' as QUERYID,
     <include refid="Base_Column_List" />
-    from nodeDTO
+    from node
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -139,15 +139,15 @@
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
-    from nodeDTO
+    from node
     where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from nodeDTO
+    delete from node
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <delete id="deleteByExample" parameterType="com.damaohongtu.quickquery.dao.entity.NodeExample">
-    delete from nodeDTO
+    delete from node
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -156,13 +156,13 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into nodeDTO (node_code, graph_code, node_name,
+    insert into node (node_code, graph_id, node_name, 
       node_type, data_source, input_field, 
       route_rule, neighbor_node, coordinate, 
       create_time, update_time, create_by, 
       update_by, valid, output_field
       )
-    values (#{nodeCode,jdbcType=VARCHAR}, #{graphCode,jdbcType=VARCHAR}, #{nodeName,jdbcType=VARCHAR}, 
+    values (#{nodeCode,jdbcType=VARCHAR}, #{graphId,jdbcType=BIGINT}, #{nodeName,jdbcType=VARCHAR}, 
       #{nodeType,jdbcType=VARCHAR}, #{dataSource,jdbcType=VARCHAR}, #{inputField,jdbcType=VARCHAR}, 
       #{routeRule,jdbcType=VARCHAR}, #{neighborNode,jdbcType=VARCHAR}, #{coordinate,jdbcType=VARCHAR}, 
       #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, 
@@ -173,13 +173,13 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into nodeDTO
+    insert into node
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="nodeCode != null">
         node_code,
       </if>
-      <if test="graphCode != null">
-        graph_code,
+      <if test="graphId != null">
+        graph_id,
       </if>
       <if test="nodeName != null">
         node_name,
@@ -225,8 +225,8 @@
       <if test="nodeCode != null">
         #{nodeCode,jdbcType=VARCHAR},
       </if>
-      <if test="graphCode != null">
-        #{graphCode,jdbcType=VARCHAR},
+      <if test="graphId != null">
+        #{graphId,jdbcType=BIGINT},
       </if>
       <if test="nodeName != null">
         #{nodeName,jdbcType=VARCHAR},
@@ -270,13 +270,13 @@
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.damaohongtu.quickquery.dao.entity.NodeExample" resultType="java.lang.Long">
-    select count(*) from nodeDTO
+    select count(*) from node
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update nodeDTO
+    update node
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=BIGINT},
@@ -284,8 +284,8 @@
       <if test="record.nodeCode != null">
         node_code = #{record.nodeCode,jdbcType=VARCHAR},
       </if>
-      <if test="record.graphCode != null">
-        graph_code = #{record.graphCode,jdbcType=VARCHAR},
+      <if test="record.graphId != null">
+        graph_id = #{record.graphId,jdbcType=BIGINT},
       </if>
       <if test="record.nodeName != null">
         node_name = #{record.nodeName,jdbcType=VARCHAR},
@@ -332,10 +332,10 @@
     </if>
   </update>
   <update id="updateByExampleWithBLOBs" parameterType="map">
-    update nodeDTO
+    update node
     set id = #{record.id,jdbcType=BIGINT},
       node_code = #{record.nodeCode,jdbcType=VARCHAR},
-      graph_code = #{record.graphCode,jdbcType=VARCHAR},
+      graph_id = #{record.graphId,jdbcType=BIGINT},
       node_name = #{record.nodeName,jdbcType=VARCHAR},
       node_type = #{record.nodeType,jdbcType=VARCHAR},
       data_source = #{record.dataSource,jdbcType=VARCHAR},
@@ -354,10 +354,10 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update nodeDTO
+    update node
     set id = #{record.id,jdbcType=BIGINT},
       node_code = #{record.nodeCode,jdbcType=VARCHAR},
-      graph_code = #{record.graphCode,jdbcType=VARCHAR},
+      graph_id = #{record.graphId,jdbcType=BIGINT},
       node_name = #{record.nodeName,jdbcType=VARCHAR},
       node_type = #{record.nodeType,jdbcType=VARCHAR},
       data_source = #{record.dataSource,jdbcType=VARCHAR},
@@ -375,13 +375,13 @@
     </if>
   </update>
   <update id="updateByPrimaryKeySelective" parameterType="com.damaohongtu.quickquery.dao.entity.Node">
-    update nodeDTO
+    update node
     <set>
       <if test="nodeCode != null">
         node_code = #{nodeCode,jdbcType=VARCHAR},
       </if>
-      <if test="graphCode != null">
-        graph_code = #{graphCode,jdbcType=VARCHAR},
+      <if test="graphId != null">
+        graph_id = #{graphId,jdbcType=BIGINT},
       </if>
       <if test="nodeName != null">
         node_name = #{nodeName,jdbcType=VARCHAR},
@@ -426,9 +426,9 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.damaohongtu.quickquery.dao.entity.Node">
-    update nodeDTO
+    update node
     set node_code = #{nodeCode,jdbcType=VARCHAR},
-      graph_code = #{graphCode,jdbcType=VARCHAR},
+      graph_id = #{graphId,jdbcType=BIGINT},
       node_name = #{nodeName,jdbcType=VARCHAR},
       node_type = #{nodeType,jdbcType=VARCHAR},
       data_source = #{dataSource,jdbcType=VARCHAR},
@@ -445,9 +445,9 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.damaohongtu.quickquery.dao.entity.Node">
-    update nodeDTO
+    update node
     set node_code = #{nodeCode,jdbcType=VARCHAR},
-      graph_code = #{graphCode,jdbcType=VARCHAR},
+      graph_id = #{graphId,jdbcType=BIGINT},
       node_name = #{nodeName,jdbcType=VARCHAR},
       node_type = #{nodeType,jdbcType=VARCHAR},
       data_source = #{dataSource,jdbcType=VARCHAR},
@@ -471,7 +471,7 @@
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
-    from nodeDTO
+    from node
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -486,7 +486,39 @@
     </if>
     'true' as QUERYID,
     <include refid="Base_Column_List" />
-    from nodeDTO
+    from node
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExampleWithBLOBsWithRowbounds" parameterType="com.damaohongtu.quickquery.dao.entity.NodeExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from node
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExampleWithRowbounds" parameterType="com.damaohongtu.quickquery.dao.entity.NodeExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from node
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -495,13 +527,13 @@
     </if>
   </select>
   <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
-    insert into nodeDTO
-    (node_code, graph_code, node_name, node_type, data_source, input_field, route_rule, 
+    insert into node
+    (node_code, graph_id, node_name, node_type, data_source, input_field, route_rule, 
       neighbor_node, coordinate, create_time, update_time, create_by, update_by, valid, 
       output_field)
     values
     <foreach collection="list" item="item" separator=",">
-      (#{item.nodeCode,jdbcType=VARCHAR}, #{item.graphCode,jdbcType=VARCHAR}, #{item.nodeName,jdbcType=VARCHAR}, 
+      (#{item.nodeCode,jdbcType=VARCHAR}, #{item.graphId,jdbcType=BIGINT}, #{item.nodeName,jdbcType=VARCHAR}, 
         #{item.nodeType,jdbcType=VARCHAR}, #{item.dataSource,jdbcType=VARCHAR}, #{item.inputField,jdbcType=VARCHAR}, 
         #{item.routeRule,jdbcType=VARCHAR}, #{item.neighborNode,jdbcType=VARCHAR}, #{item.coordinate,jdbcType=VARCHAR}, 
         #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateTime,jdbcType=TIMESTAMP}, #{item.createBy,jdbcType=VARCHAR}, 
@@ -510,7 +542,7 @@
     </foreach>
   </insert>
   <insert id="batchInsertSelective" keyColumn="id" keyProperty="list.id" parameterType="map" useGeneratedKeys="true">
-    insert into nodeDTO (
+    insert into node (
     <foreach collection="selective" item="column" separator=",">
       ${column.escapedColumnName}
     </foreach>
@@ -522,8 +554,8 @@
         <if test="'node_code'.toString() == column.value">
           #{item.nodeCode,jdbcType=VARCHAR}
         </if>
-        <if test="'graph_code'.toString() == column.value">
-          #{item.graphCode,jdbcType=VARCHAR}
+        <if test="'graph_id'.toString() == column.value">
+          #{item.graphId,jdbcType=BIGINT}
         </if>
         <if test="'node_name'.toString() == column.value">
           #{item.nodeName,jdbcType=VARCHAR}
@@ -569,7 +601,7 @@
     </foreach>
   </insert>
   <insert id="upsertSelective" keyColumn="id" keyProperty="id" parameterType="com.damaohongtu.quickquery.dao.entity.Node" useGeneratedKeys="true">
-    insert into nodeDTO
+    insert into node
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
@@ -577,8 +609,8 @@
       <if test="nodeCode != null">
         node_code,
       </if>
-      <if test="graphCode != null">
-        graph_code,
+      <if test="graphId != null">
+        graph_id,
       </if>
       <if test="nodeName != null">
         node_name,
@@ -628,8 +660,8 @@
       <if test="nodeCode != null">
         #{nodeCode,jdbcType=VARCHAR},
       </if>
-      <if test="graphCode != null">
-        #{graphCode,jdbcType=VARCHAR},
+      <if test="graphId != null">
+        #{graphId,jdbcType=BIGINT},
       </if>
       <if test="nodeName != null">
         #{nodeName,jdbcType=VARCHAR},
@@ -679,8 +711,8 @@
       <if test="nodeCode != null">
         node_code = #{nodeCode,jdbcType=VARCHAR},
       </if>
-      <if test="graphCode != null">
-        graph_code = #{graphCode,jdbcType=VARCHAR},
+      <if test="graphId != null">
+        graph_id = #{graphId,jdbcType=BIGINT},
       </if>
       <if test="nodeName != null">
         node_name = #{nodeName,jdbcType=VARCHAR},
@@ -724,13 +756,13 @@
     </trim>
   </insert>
   <insert id="upsert" keyColumn="id" keyProperty="id" parameterType="com.damaohongtu.quickquery.dao.entity.Node" useGeneratedKeys="true">
-    insert into nodeDTO
+    insert into node
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
       </if>
       node_code,
-      graph_code,
+      graph_id,
       node_name,
       node_type,
       data_source,
@@ -750,7 +782,7 @@
         #{id,jdbcType=BIGINT},
       </if>
       #{nodeCode,jdbcType=VARCHAR},
-      #{graphCode,jdbcType=VARCHAR},
+      #{graphId,jdbcType=BIGINT},
       #{nodeName,jdbcType=VARCHAR},
       #{nodeType,jdbcType=VARCHAR},
       #{dataSource,jdbcType=VARCHAR},
@@ -770,7 +802,7 @@
         id = #{id,jdbcType=BIGINT},
       </if>
       node_code = #{nodeCode,jdbcType=VARCHAR},
-      graph_code = #{graphCode,jdbcType=VARCHAR},
+      graph_id = #{graphId,jdbcType=BIGINT},
       node_name = #{nodeName,jdbcType=VARCHAR},
       node_type = #{nodeType,jdbcType=VARCHAR},
       data_source = #{dataSource,jdbcType=VARCHAR},
@@ -786,13 +818,13 @@
     </trim>
   </insert>
   <insert id="upsertWithBLOBs" keyColumn="id" keyProperty="id" parameterType="com.damaohongtu.quickquery.dao.entity.Node" useGeneratedKeys="true">
-    insert into nodeDTO
+    insert into node
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
       </if>
       node_code,
-      graph_code,
+      graph_id,
       node_name,
       node_type,
       data_source,
@@ -813,7 +845,7 @@
         #{id,jdbcType=BIGINT},
       </if>
       #{nodeCode,jdbcType=VARCHAR},
-      #{graphCode,jdbcType=VARCHAR},
+      #{graphId,jdbcType=BIGINT},
       #{nodeName,jdbcType=VARCHAR},
       #{nodeType,jdbcType=VARCHAR},
       #{dataSource,jdbcType=VARCHAR},
@@ -834,7 +866,7 @@
         id = #{id,jdbcType=BIGINT},
       </if>
       node_code = #{nodeCode,jdbcType=VARCHAR},
-      graph_code = #{graphCode,jdbcType=VARCHAR},
+      graph_id = #{graphId,jdbcType=BIGINT},
       node_name = #{nodeName,jdbcType=VARCHAR},
       node_type = #{nodeType,jdbcType=VARCHAR},
       data_source = #{dataSource,jdbcType=VARCHAR},
@@ -851,7 +883,7 @@
     </trim>
   </insert>
   <insert id="batchUpsertSelective" parameterType="map">
-    insert into nodeDTO (
+    insert into node (
     <foreach collection="selective" item="column" separator=",">
       ${column.escapedColumnName}
     </foreach>
@@ -866,8 +898,8 @@
         <if test="'node_code'.toString() == column.value">
           #{item.nodeCode,jdbcType=VARCHAR}
         </if>
-        <if test="'graph_code'.toString() == column.value">
-          #{item.graphCode,jdbcType=VARCHAR}
+        <if test="'graph_id'.toString() == column.value">
+          #{item.graphId,jdbcType=BIGINT}
         </if>
         <if test="'node_name'.toString() == column.value">
           #{item.nodeName,jdbcType=VARCHAR}
@@ -917,13 +949,13 @@
     </foreach>
   </insert>
   <insert id="batchUpsert" parameterType="map">
-    insert into nodeDTO
-    (id, node_code, graph_code, node_name, node_type, data_source, input_field, route_rule, 
+    insert into node
+    (id, node_code, graph_id, node_name, node_type, data_source, input_field, route_rule, 
       neighbor_node, coordinate, create_time, update_time, create_by, update_by, valid
       )
     values
     <foreach collection="list" item="item" separator=",">
-      (#{item.id,jdbcType=BIGINT}, #{item.nodeCode,jdbcType=VARCHAR}, #{item.graphCode,jdbcType=VARCHAR}, 
+      (#{item.id,jdbcType=BIGINT}, #{item.nodeCode,jdbcType=VARCHAR}, #{item.graphId,jdbcType=BIGINT}, 
         #{item.nodeName,jdbcType=VARCHAR}, #{item.nodeType,jdbcType=VARCHAR}, #{item.dataSource,jdbcType=VARCHAR}, 
         #{item.inputField,jdbcType=VARCHAR}, #{item.routeRule,jdbcType=VARCHAR}, #{item.neighborNode,jdbcType=VARCHAR}, 
         #{item.coordinate,jdbcType=VARCHAR}, #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateTime,jdbcType=TIMESTAMP}, 
@@ -933,7 +965,7 @@
     on duplicate key update 
     id = values(id),
     node_code = values(node_code),
-    graph_code = values(graph_code),
+    graph_id = values(graph_id),
     node_name = values(node_name),
     node_type = values(node_type),
     data_source = values(data_source),
@@ -948,13 +980,13 @@
     valid = values(valid)
   </insert>
   <insert id="batchUpsertWithBLOBs" parameterType="map">
-    insert into nodeDTO
-    (id, node_code, graph_code, node_name, node_type, data_source, input_field, route_rule, 
+    insert into node
+    (id, node_code, graph_id, node_name, node_type, data_source, input_field, route_rule, 
       neighbor_node, coordinate, create_time, update_time, create_by, update_by, valid, 
       output_field)
     values
     <foreach collection="list" item="item" separator=",">
-      (#{item.id,jdbcType=BIGINT}, #{item.nodeCode,jdbcType=VARCHAR}, #{item.graphCode,jdbcType=VARCHAR}, 
+      (#{item.id,jdbcType=BIGINT}, #{item.nodeCode,jdbcType=VARCHAR}, #{item.graphId,jdbcType=BIGINT}, 
         #{item.nodeName,jdbcType=VARCHAR}, #{item.nodeType,jdbcType=VARCHAR}, #{item.dataSource,jdbcType=VARCHAR}, 
         #{item.inputField,jdbcType=VARCHAR}, #{item.routeRule,jdbcType=VARCHAR}, #{item.neighborNode,jdbcType=VARCHAR}, 
         #{item.coordinate,jdbcType=VARCHAR}, #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateTime,jdbcType=TIMESTAMP}, 
@@ -964,7 +996,7 @@
     on duplicate key update 
     id = values(id),
     node_code = values(node_code),
-    graph_code = values(graph_code),
+    graph_id = values(graph_id),
     node_name = values(node_name),
     node_type = values(node_type),
     data_source = values(data_source),

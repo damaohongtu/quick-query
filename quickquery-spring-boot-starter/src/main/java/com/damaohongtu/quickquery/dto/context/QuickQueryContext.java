@@ -32,7 +32,7 @@ public class QuickQueryContext {
     /**
      * 图查询编码
      */
-    private String graphCode;
+    private Long graphId;
 
     /**
      * 图查询名字
@@ -96,7 +96,7 @@ public class QuickQueryContext {
 
         QuickQueryResponse response = QuickQueryResponse.builder()
                 .bizName(this.graphName)
-                .bizCode(this.graphCode)
+                .bizCode(this.graphId)
                 .data(rows)
                 .build();
         return response;
