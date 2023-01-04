@@ -58,9 +58,9 @@ public class ConfigController {
     }
 
     @GetMapping("/graph/query")
-    public BaseResponse queryGraph(@RequestParam String graphCode){
+    public BaseResponse queryGraph(@RequestParam Long graphId){
 
-        QuickQueryConfigDto quickQueryConfigDto = configService.queryGraph(graphCode);
+        QuickQueryConfigDto quickQueryConfigDto = configService.queryGraph(graphId);
         BaseResponse response = BaseResponse.builder()
                 .status(ResponseCodeEnum.SUCCESS.getStatus())
                 .code(ResponseCodeEnum.SUCCESS.getCode())

@@ -29,7 +29,7 @@ public class NodeDto {
     /**
      * 关联图编码
      */
-    private String graphCode;
+    private Long graphId;
 
     /**
      * 节点名
@@ -70,7 +70,7 @@ public class NodeDto {
         Gson gson = new Gson();
         NodeDto nodeDto = NodeDto.builder()
                 .nodeCode(node.getNodeCode())
-                .graphCode(node.getGraphCode())
+                .graphId(node.getGraphId())
                 .nodeName(node.getNodeName())
                 .nodeType(node.getNodeType())
                 .dataSource(node.getDataSource())

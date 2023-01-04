@@ -20,7 +20,7 @@ public class QueryController {
     private QuickQueryClient quickQueryClient;
 
     @GetMapping("/")
-    public String query(@RequestParam(name = "bizCode") String bizCode, @RequestParam(name = "serialNo") String serialNo) {
+    public String query(@RequestParam(name = "bizCode") Long bizCode, @RequestParam(name = "serialNo") String serialNo) {
         QuickQueryRequest request = new QuickQueryRequest();
         request.setBizCode(bizCode);
         request.setSerialNo(serialNo);

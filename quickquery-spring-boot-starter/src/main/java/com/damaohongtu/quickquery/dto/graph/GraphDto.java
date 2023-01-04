@@ -16,7 +16,7 @@ import java.util.Date;
 @Builder
 public class GraphDto {
 
-    private String graphCode;
+    private Long graphId;
 
     private String graphName;
 
@@ -32,7 +32,7 @@ public class GraphDto {
 
     public static GraphDto fromPo(Graph graph){
         GraphDto graphDto = GraphDto.builder()
-                .graphCode(graph.getGraphCode())
+                .graphId(graph.getId())
                 .graphName(graph.getGraphName())
                 .createTime(graph.getCreateTime())
                 .updateTime(graph.getUpdateTime())
