@@ -30,4 +30,9 @@ public class Element {
      * 结果
      */
     private Object value;
+
+    /**
+     * 渲染模板
+     */
+    private String template;
 }
