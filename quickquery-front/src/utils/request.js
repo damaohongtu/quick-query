@@ -75,14 +75,14 @@ service.interceptors.response.use(
 
 export default service
 
-const OrderQueryRequest = axios.create({
-  baseURL: 'http://127.0.0.1:9527',
+const QuickQueryRequest = axios.create({
+  baseURL: process.env.VUE_APP_BASE_API,
   timeout: 80000, // 请求超时时间
   withCredentials: true
 })
 
 // request拦截器
-OrderQueryRequest.interceptors.request.use(
+QuickQueryRequest.interceptors.request.use(
   config => {
     if (getToken()) {
       config.headers['Authorization'] = getToken() // 让每个请求携带自定义token 请根据实际情况自行修改
@@ -101,7 +101,7 @@ OrderQueryRequest.interceptors.request.use(
 )
 
 // response 拦截器
-OrderQueryRequest.interceptors.response.use(
+QuickQueryRequest.interceptors.response.use(
   response => {
     return response.data
   },
@@ -136,4 +136,4 @@ OrderQueryRequest.interceptors.response.use(
   }
 )
 
-export { OrderQueryRequest }
+export { QuickQueryRequest }
