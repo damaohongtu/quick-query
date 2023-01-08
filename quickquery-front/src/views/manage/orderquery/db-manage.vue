@@ -1,11 +1,11 @@
 <template>
   <div class="app-container">
-    <el-row :gutter='10' class="header-query-add">
+    <el-row :gutter="10" class="header-query-add">
       <el-col :span="3">
         <el-input placeholder="请输入配置编码" />
       </el-col>
       <el-col :span="3">
-        <el-input placeholder="请输入配置名称"></el-input>
+        <el-input placeholder="请输入配置名称" />
       </el-col>
       <el-button type="primary" icon="el-icon-search" @click="query">查询</el-button>
       <el-button type="primary" icon="el-icon-circle-plus-outline" @click="dialogFormVisible = true">新增</el-button>
@@ -44,50 +44,43 @@
         <el-form :model="form">
           <el-form-item label="数据源类型" :label-width="formLabelWidth">
             <el-select v-model="form.region" placeholder="请选数据源类型">
-              <el-option label="MySQL" value="mysql"></el-option>
-              <el-option label="ClickHouse" value="clickhouse"></el-option>
+              <el-option label="MySQL" value="mysql" />
+              <el-option label="ClickHouse" value="clickhouse" />
             </el-select>
           </el-form-item>
-          <div style="margin-bottom: 20px;">
-            <el-button
-              size="small"
-              @click="addTab(editableTabsValue)"
-            >
-              add tab
-            </el-button>
-          </div>
-          <el-tabs v-model="editableTabsValue" type="card" closable @tab-remove="removeTab">
-            <el-tab-pane
-              v-for="(item, index) in editableTabs"
-              :key="item.name"
-              :label="item.title"
-              :name="item.name"
-            >
-              {{item.content}}
-            </el-tab-pane>
-          </el-tabs>
           <el-form-item label="连接池名" :label-width="formLabelWidth">
-            <el-input v-model="form.name" autocomplete="off"></el-input>
-          </el-form-item>
-          <el-form-item label="Host" :label-width="formLabelWidth">
-            <el-input v-model="form.name" autocomplete="off"></el-input>
-          </el-form-item>
-          <el-form-item label="Port" :label-width="formLabelWidth">
-            <el-input v-model="form.name" autocomplete="off"></el-input>
-          </el-form-item>
-          <el-form-item label="Database" :label-width="formLabelWidth">
-            <el-input v-model="form.name" autocomplete="off"></el-input>
-          </el-form-item>
-          <el-form-item label="Username" :label-width="formLabelWidth">
-            <el-input v-model="form.name" autocomplete="off"></el-input>
-          </el-form-item>
-          <el-form-item label="Password" :label-width="formLabelWidth">
-            <el-input v-model="form.name" autocomplete="off"></el-input>
+            <el-input v-model="form.name" autocomplete="off" />
           </el-form-item>
         </el-form>
+        <el-tabs v-model="editableTabsValue" type="card" editable @edit="handleTabsEdit">
+          <el-tab-pane
+            v-for="(item, index) in editableTabs"
+            :key="item.name"
+            :label="index"
+            :name="item.name"
+          >
+            <el-form>
+              <el-form-item label="Host" :label-width="formLabelWidth">
+                <el-input v-model="form.name" autocomplete="off" />
+              </el-form-item>
+              <el-form-item label="Port" :label-width="formLabelWidth">
+                <el-input v-model="form.name" autocomplete="off" />
+              </el-form-item>
+              <el-form-item label="Database" :label-width="formLabelWidth">
+                <el-input v-model="form.name" autocomplete="off" />
+              </el-form-item>
+              <el-form-item label="Username" :label-width="formLabelWidth">
+                <el-input v-model="form.name" autocomplete="off" />
+              </el-form-item>
+              <el-form-item label="Password" :label-width="formLabelWidth">
+                <el-input v-model="form.name" autocomplete="off" />
+              </el-form-item>
+            </el-form>
+            <el-button type="success" @click="dialogFormVisible = false">测试</el-button>
+          </el-tab-pane>
+        </el-tabs>
         <div slot="footer" class="dialog-footer">
           <el-button @click="dialogFormVisible = false">取 消</el-button>
-          <el-button type="success" @click="dialogFormVisible = false">测试</el-button>
           <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
         </div>
       </el-dialog>
@@ -150,31 +143,33 @@ export default {
     edit(graphCode) {
       this.$router.push({ path: '/graph-manage/edit', query: { graphCode: graphCode }})
     },
-    addTab(targetName) {
-      let newTabName = ++this.tabIndex + '';
-      this.editableTabs.push({
-        title: 'New Tab',
-        name: newTabName,
-        content: 'New Tab content'
-      });
-      this.editableTabsValue = newTabName;
-    },
-    removeTab(targetName) {
-      let tabs = this.editableTabs;
-      let activeName = this.editableTabsValue;
-      if (activeName === targetName) {
-        tabs.forEach((tab, index) => {
-          if (tab.name === targetName) {
-            let nextTab = tabs[index + 1] || tabs[index - 1];
-            if (nextTab) {
-              activeName = nextTab.name;
-            }
-          }
-        });
+    handleTabsEdit(targetName, action) {
+      if (action === 'add') {
+        const newTabName = ++this.tabIndex + ''
+        this.editableTabs.push({
+          title: 'New Tab',
+          name: newTabName,
+          content: 'New Tab content'
+        })
+        this.editableTabsValue = newTabName
       }
+      if (action === 'remove') {
+        const tabs = this.editableTabs
+        let activeName = this.editableTabsValue
+        if (activeName === targetName) {
+          tabs.forEach((tab, index) => {
+            if (tab.name === targetName) {
+              const nextTab = tabs[index + 1] || tabs[index - 1]
+              if (nextTab) {
+                activeName = nextTab.name
+              }
+            }
+          })
+        }
 
-      this.editableTabsValue = activeName;
-      this.editableTabs = tabs.filter(tab => tab.name !== targetName);
+        this.editableTabsValue = activeName
+        this.editableTabs = tabs.filter(tab => tab.name !== targetName)
+      }
     }
   }
 }
