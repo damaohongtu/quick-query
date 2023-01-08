@@ -112,6 +112,26 @@ export const asyncRoutes = [
     ]
   },
   {
+    path: '/db-manage',
+    component: Layout,
+    alwaysShow: true, // will always show the root menu
+    name: 'DatabaseManage',
+    meta: {
+      title: 'Database管理',
+      icon: 'table'
+    },
+    children: [
+      {
+        path: '',
+        component: () => import('@/views/manage/orderquery/db-manage'),
+        name: 'DatabaseList',
+        meta: {
+          title: 'Database列表'
+        }
+      }
+    ]
+  },
+  {
     path: '/hash-manage',
     component: Layout,
     alwaysShow: true, // will always show the root menu
