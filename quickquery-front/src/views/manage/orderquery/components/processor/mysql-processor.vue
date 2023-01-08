@@ -259,6 +259,7 @@ export default {
       const dataSourceType = 'external.mysql'
       queryTableInfo(dataSourceType, dataSourceName, table).then(
         res => {
+          this.itemData.configInfo.outputField = []
           res.forEach((item) => {
             this.itemData.configInfo.outputField.push({ key: item.code, name: item.name, type: item.dbType, displayConfig: { enumMap: '',
               hyperLink: '',

@@ -102,19 +102,6 @@ export default {
       }
     }
   },
-  computed: {
-    nodeMap: {
-      get() {
-        const map = new Map()
-        this.formattedData.nodes.forEach(
-          (item) => {
-            map.set(item.id, item.configInfo.outputField)
-          }
-        )
-        return map
-      }
-    }
-  },
   mounted() {
     this.disableEdit()
     if (this.$route.name === 'GraphInfo') {
