@@ -58,3 +58,25 @@ create table orderquery.query_order_node
         unique (graph_code, node_code)
 )
     comment '查询关联图节点';
+
+
+create table if not exists orderquery.datasource
+(
+    id          bigint auto_increment
+        primary key,
+    code        varchar(256) default ''                    not null comment '数据源编码',
+    name        varchar(256) default ''                    not null comment '数据源名',
+    type        varchar(64)  default ''                    not null comment '数据源类型',
+    url         varchar(256) default ''                    not null comment '连接',
+    driver      varchar(256) default ''                    not null comment '数据源驱动',
+    username    varchar(256) default ''                    not null comment '用户名',
+    password    varchar(256) default ''                    not null comment '密码',
+    db_order    int          default 0                     not null comment '数据源顺序',
+    create_by   varchar(256) default ''                    not null comment '创建人',
+    update_by   varchar(256) default ''                    not null comment '更新人',
+    create_time timestamp    default '1970-01-01 08:00:01' not null comment '创建时间',
+    update_time timestamp    default CURRENT_TIMESTAMP     not null on update CURRENT_TIMESTAMP comment '更新时间',
+    valid       tinyint      default 1                     not null comment '逻辑删除键，=1有效，=0失效'
+)
+    comment '数据源';
+
