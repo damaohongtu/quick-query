@@ -24,6 +24,14 @@ public class DataSourceDynamicConfig {
 
     public void buildDataSource(){
         List<Source> sourceList = sourceRepo.list();
+        sourceList.forEach(source -> {
+            DruidDataSource dataSource = new DruidDataSource();
+            dataSource.setDriverClassName(source.getDriver());
+            dataSource.setUrl(source.getUrl());
+            dataSource.setUsername(source.getUsername());
+            dataSource.setPassword(source.getPassword());
+        });
+
 
     }
 
